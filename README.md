@@ -6,7 +6,7 @@ To Do:
 - [ ] Add shaders for planets
 - [ ] Main menu screen
 - [ ] Buying planets
-- [ ] Climates
+- [x] Climates
 - [ ] What happens when you click on a planet (showing climates/climate modifiers)
 - [ ] Climate modifiers:
 	- [ ] Plants
