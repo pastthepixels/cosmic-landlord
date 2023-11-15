@@ -1,28 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=7 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
+[ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5a16s"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
+shader = ExtResource("2_r7y0b")
+shader_parameter/sky_color = Color(0, 0.0470588, 0.141176, 1)
 
-[sub_resource type="Sky" id="Sky_6rf1e"]
-sky_material = SubResource("ProceduralSkyMaterial_5a16s")
+[sub_resource type="Sky" id="Sky_gop4l"]
+sky_material = SubResource("ShaderMaterial_l3gqj")
 
-[sub_resource type="Environment" id="Environment_tsvpn"]
+[sub_resource type="Environment" id="Environment_sx0eq"]
 background_mode = 2
-sky = SubResource("Sky_6rf1e")
-tonemap_mode = 2
-sdfgi_enabled = true
-glow_enabled = true
+sky = SubResource("Sky_gop4l")
 
 [node name="PlanetScreen" type="Node3D"]
 script = ExtResource("1_2l1pr")
 planets = 30
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_tsvpn")
+environment = SubResource("Environment_sx0eq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)

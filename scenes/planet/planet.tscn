@@ -1,11 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbk22ou8eywq8"]
+[gd_scene load_steps=8 format=3 uid="uid://dbk22ou8eywq8"]
 
 [ext_resource type="Script" path="res://scenes/planet/planet.gd" id="1_2wp60"]
 [ext_resource type="Shader" path="res://scenes/planet/planet.gdshader" id="2_e4eum"]
 
+[sub_resource type="Gradient" id="Gradient_60vfi"]
+colors = PackedColorArray(0.892099, 0.319418, 0.0655331, 1, 0, 0.617908, 0.122142, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bjurl"]
+gradient = SubResource("Gradient_60vfi")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qhgyt"]
 render_priority = 0
 shader = ExtResource("2_e4eum")
+shader_parameter/gradient = SubResource("GradientTexture1D_bjurl")
 
 [sub_resource type="SphereMesh" id="SphereMesh_yjuop"]
 material = SubResource("ShaderMaterial_qhgyt")
@@ -21,6 +28,8 @@ randomly_generated_climate = true
 collision_mask = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+instance_shader_parameters/oxygen = null
+instance_shader_parameters/water = null
 mesh = SubResource("SphereMesh_yjuop")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
