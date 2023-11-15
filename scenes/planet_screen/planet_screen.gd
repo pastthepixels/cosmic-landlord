@@ -4,6 +4,8 @@ extends Node3D
 
 var planet_scene = preload("res://scenes/planet/planet.tscn")
 
+var line_scene = preload("res://scenes/line/line.tscn")
+
 var rng = RandomNumberGenerator.new()
 
 
@@ -17,6 +19,7 @@ func _ready():
 func _process(delta):
 	pass
 
+# TODO: in the future, voronoi noise
 func generate_planets():
 	# Generate planets.
 	for i in planets:
@@ -26,20 +29,19 @@ func generate_planets():
 		$Planets.add_child(planet)
 	# Initialize planets.
 	for planet in get_tree().get_nodes_in_group("planets"):
-		planet.cache_adjacent_planets()
-		# TODO: remove and simplify
-		for adjacent_planet in planet.get_adjacent_planets():
-			var mesh = ImmediateMesh.new()
-			mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
-			mesh.surface_add_vertex(planet.position)
-			mesh.surface_add_vertex(adjacent_planet.position)
-			mesh.surface_end()
-			var mesh_instance = MeshInstance3D.new()
-			mesh_instance.mesh = mesh
-			var material = StandardMaterial3D.new()
-			material.albedo_color = Color(1, 0, 0)
-			mesh_instance.set_surface_override_material(0, material)
-			$Planets.add_child(mesh_instance)
+		for adjacent_planet in planet.get_closest_planets():
+			# Checks for duplicates first
+			var duplicates = false
+			for other in get_tree().get_nodes_in_group("lines"):
+				if (other.from_object == adjacent_planet.get_path() and other.to_object == planet.get_path()) or \
+				   (other.from_object == planet.get_path() and other.to_object == adjacent_planet.get_path()):
+						duplicates = true
+			# Now if there isn't any duplicates we will draw a line.
+			if duplicates == false:
+				var line = line_scene.instantiate()
+				line.connect_objects(planet, adjacent_planet)
+				line.delete_if_collides = true
+				$Planets.add_child(line)
 
 
 func generate_planet_position() -> Vector2:

@@ -17,9 +17,6 @@ extends Node3D
 
 var rng = RandomNumberGenerator.new()
 
-var adjacent_planets = []
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
@@ -38,7 +35,7 @@ func generate_random_climate():
 	water_coverage		 = rng.randf_range(0, 1)
 	land_coverage		 = 1 - water_coverage
 
-func get_adjacent_planets():
+func get_closest_planets():
 	var sorted_planets = get_tree().get_nodes_in_group("planets")
 	var to_return = []
 	sorted_planets.sort_custom(func(a, b): return (a.position.distance_to(position)) < b.position.distance_to(position))
@@ -49,5 +46,11 @@ func get_adjacent_planets():
 			to_return.append(closest_planet)
 	return to_return
 
-func cache_adjacent_planets():
-	adjacent_planets = get_adjacent_planets()
+func get_connecting_planets():
+	var connecting_planets = []
+	for line in get_tree().get_nodes_in_group("lines"):
+		if line.from_object == self:
+			connecting_planets.add(line.to_object)
+		if line.to_object == self and not line.from_object in connecting_planets:
+			connecting_planets.add(line.from_object)
+	return connecting_planets
