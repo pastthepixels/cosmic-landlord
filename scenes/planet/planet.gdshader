@@ -1,5 +1,9 @@
 shader_type spatial;
 
+uniform float water: hint_range(0.,1.);
+uniform float oxygen: hint_range(0.,1.);
+uniform sampler2D gradient: hint_default_black;
+
 // discontinuous pseudorandom uniformly distributed in [-0.5, +0.5]^3
 vec3 random3(vec3 c) {
 	float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));
@@ -65,8 +69,23 @@ void fragment() {
 	float phi = PI * UV.y;
 	vec3 samplePoint = vec3(cos(theta) * sin(phi), sin(theta) * sin(phi), -cos(phi));
 	// TODO: CLOUDS AND CONSTANTS FOR O2, CO2, H2O, LAND, TEMPERATURE
-	float noiseVal = floor(10. * fnoise(samplePoint, 7) + 2.5) * 0.2;
-	//float noiseVal = fnoise(samplePoint, 7) + 0.5;
-	ALBEDO = vec3(noiseVal * 0.5, noiseVal, 0.3 - 0.3 * noiseVal);
-	//ALBEDO = vec3(noiseVal, noiseVal, noiseVal);
+	float groundVal = floor(10. * fnoise(samplePoint, 7) + 0.) * 0.2;
+	float cloudVal = 2. * fnoise(samplePoint + 10. + TIME * 0.05, 4) + 1.;
+	
+	vec4 finalColor = vec4(0.);
+	
+	float waterDepth = groundVal;
+	
+	finalColor = texture(gradient, vec2(0.01 + oxygen * 0.98, 0.));
+	
+	if (groundVal < water) {
+		float depth = water - groundVal;
+		finalColor = clamp(finalColor * (1. - depth) + vec4(0., 0., 0.1, 1.) * depth, 0., 1.);
+	}
+	
+	if (cloudVal > 1.5) {
+		finalColor = (vec4(1.) + 3. * finalColor) * 0.25;
+	}
+	
+	ALBEDO = finalColor.rgb;
 }
