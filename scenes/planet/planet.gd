@@ -25,8 +25,9 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _process(_delta):
+	$MeshInstance3D.set_instance_shader_parameter("oxygen", oxygen_level)
+	$MeshInstance3D.set_instance_shader_parameter("water", water_coverage)
 
 func generate_random_climate():
 	temperature_level	 = rng.randf_range(-1, 1)

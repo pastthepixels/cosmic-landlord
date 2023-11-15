@@ -28,8 +28,6 @@ randomly_generated_climate = true
 collision_mask = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-instance_shader_parameters/oxygen = null
-instance_shader_parameters/water = null
 mesh = SubResource("SphereMesh_yjuop")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
