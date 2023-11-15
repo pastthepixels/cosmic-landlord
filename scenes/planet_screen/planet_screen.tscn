@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=7 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
-[ext_resource type="PackedScene" uid="uid://dbk22ou8eywq8" path="res://scenes/planet/planet.tscn" id="1_kb5wg"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
@@ -29,6 +28,7 @@ shadow_enabled = true
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 0, 0)
+collision_mask = 0
 spring_length = 10.0
 script = ExtResource("1_du1fq")
 
@@ -36,5 +36,3 @@ script = ExtResource("1_du1fq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="Planets" type="Node3D" parent="."]
-
-[node name="Planet" parent="Planets" instance=ExtResource("1_kb5wg")]
