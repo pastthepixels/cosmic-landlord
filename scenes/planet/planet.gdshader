@@ -1,7 +1,7 @@
 shader_type spatial;
 
-uniform float water: hint_range(0.,1.);
-uniform float oxygen: hint_range(0.,1.);
+instance uniform float water: hint_range(0.,1.);
+instance uniform float oxygen: hint_range(0.,1.);
 uniform sampler2D gradient: hint_default_black;
 
 // discontinuous pseudorandom uniformly distributed in [-0.5, +0.5]^3
@@ -65,16 +65,15 @@ float fnoise(vec3 p, int octs) {
 
 void fragment() {
 	float rotSpeed = 0.05;
+	// Convert uv to cartesian coords
 	float theta = 2. * PI * (UV.x + TIME * rotSpeed);
 	float phi = PI * UV.y;
 	vec3 samplePoint = vec3(cos(theta) * sin(phi), sin(theta) * sin(phi), -cos(phi));
-	// TODO: CLOUDS AND CONSTANTS FOR O2, CO2, H2O, LAND, TEMPERATURE
+	
 	float groundVal = floor(10. * fnoise(samplePoint, 7) + 0.) * 0.2;
 	float cloudVal = 2. * fnoise(samplePoint + 10. + TIME * 0.05, 4) + 1.;
 	
 	vec4 finalColor = vec4(0.);
-	
-	float waterDepth = groundVal;
 	
 	finalColor = texture(gradient, vec2(0.01 + oxygen * 0.98, 0.));
 	
