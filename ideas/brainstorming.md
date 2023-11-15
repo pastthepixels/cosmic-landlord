@@ -33,12 +33,14 @@ Idea: Management sim/tycoon ish in which you manage planets.
     * Water
     * Land
 * What can affect a planet's climate?
-    * **People.** More density (people/max) --> more money, BUT less O2, land, and water.
+    * **People.** More density (people/max) --> more money, BUT less O2, land, and water. Changes temperature
         * Too much people? Change the climate of a planet so the growth rate becomes 0 or is negative. Less land
     * **Plants.** Less CO2 and more O2, but requires H2O. Less land!
-    * **Water synthesizers.** More H2O, but less CO2 and O2. Less land
-    * **Water absorbers.** Less H2O, but more land.
-    * TODO: more things!!
+    * **Water synthesizers.** More H2O, but less CO2 and O2. Less land. Changes temperature
+    * **Water absorbers.** Less H2O, but more land. Changes temperature
+    * **Carbon capture devices** Less CO2, and less temperature
+    * **Farms** Less land and water, but you can increase your capacity for people
+    * **Housing** less land, but more people
 
 ## Objectives and hinderances
 * The objective of the game is to rule the entire observable universe!
