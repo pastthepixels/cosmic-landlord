@@ -31,7 +31,8 @@ shadow_enabled = true
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)
 script = ExtResource("1_du1fq")
-speed = 20.0
+speed = 15.0
+movement_threshold = 0.3
 
 [node name="Planets" type="Node3D" parent="."]
 
