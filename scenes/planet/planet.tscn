@@ -1,11 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbk22ou8eywq8"]
 
 [ext_resource type="Script" path="res://scenes/planet/planet.gd" id="1_2wp60"]
-[ext_resource type="Shader" path="res://scenes/planet.gdshader" id="2_k8o31"]
+[ext_resource type="Shader" path="res://scenes/planet/planet.gdshader" id="2_e4eum"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qhgyt"]
 render_priority = 0
-shader = ExtResource("2_k8o31")
+shader = ExtResource("2_e4eum")
 
 [sub_resource type="SphereMesh" id="SphereMesh_yjuop"]
 material = SubResource("ShaderMaterial_qhgyt")
