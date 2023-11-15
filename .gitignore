@@ -1,1 +1,6 @@
+<<<<<<< Updated upstream
 .godot/*
+=======
+# Godot 4+ specific ignores
+.godot/
+>>>>>>> Stashed changes
