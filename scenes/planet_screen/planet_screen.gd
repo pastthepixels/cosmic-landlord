@@ -2,13 +2,14 @@ extends Node3D
 
 @export var planets : int = 20
 
-var planet_scene = preload("res://scenes/planet_screen/planet.tscn")
+var planet_scene = preload("res://scenes/planet/planet.tscn")
 
 var rng = RandomNumberGenerator.new()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
 	generate_planets()
 
 
