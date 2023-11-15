@@ -1,8 +1,10 @@
-extends Camera3D
+extends SpringArm3D
 
 @export var speed : float = 50;
 
 @export var movement_threshold = 0.2;
+
+@export var max_zoom : int = 10
 
 var movement_velocity = Vector3()
 
@@ -23,6 +25,14 @@ func _process(delta):
 		mouse_pos_normalized.y < (movement_threshold) or \
 		mouse_pos_normalized.x > (1 - movement_threshold) or \
 		mouse_pos_normalized.x < (movement_threshold):
-		var amount = (mouse_pos_normalized - Vector2(0.5, 0.5)) * speed * delta
+		var amount = (mouse_pos_normalized - Vector2(0.5, 0.5)) * speed * delta * (spring_length / max_zoom)
 		movement_velocity.z = amount.y
 		movement_velocity.x = amount.x
+
+func _input(event):
+	# Scrolling
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and spring_length - 1  >= 1:
+			spring_length -= 1
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and spring_length + 1 <= max_zoom:
+			spring_length += 1
