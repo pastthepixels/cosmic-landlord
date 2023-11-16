@@ -22,12 +22,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$DebugBar.value = $PayCycle.time_left / $PayCycle.wait_time
+	$DemandHUD.update($Player.money, $PayCycle.time_left / $PayCycle.wait_time)
 
 func generate_tribes():
 	for i in tribes:
 		var tribe = tribe_scene.instantiate()
 		$Tribes.add_child(tribe)
+	$DemandHUD.initialise()
 
 # TODO: in the future, voronoi noise
 func generate_planets():

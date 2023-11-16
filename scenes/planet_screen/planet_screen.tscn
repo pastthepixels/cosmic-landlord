@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=9 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
+[ext_resource type="PackedScene" uid="uid://d0mekwjcuvsvg" path="res://scenes/demand_hud/demand_hud.tscn" id="2_tp2uc"]
 [ext_resource type="PackedScene" uid="uid://bugrt3bo0ibvi" path="res://scenes/player/player.tscn" id="2_tpxrh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
@@ -20,18 +21,11 @@ sky = SubResource("Sky_gop4l")
 script = ExtResource("1_2l1pr")
 planets = 30
 
+[node name="DemandHUD" parent="." instance=ExtResource("2_tp2uc")]
+
 [node name="PayCycle" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
-
-[node name="DebugBar" type="ProgressBar" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -27.0
-offset_right = 190.0
-grow_vertical = 0
-max_value = 1.0
 
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]
 
