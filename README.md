@@ -4,7 +4,7 @@ To Do:
 - [ ] Replace planet generation with voronoi noise
 ## What we have to do
 - [x] Add shaders for planets
-- [ ] Main menu screen
+- [x] Main menu screen
 - [x] Buying planets
 - [x] Climates
 - [x] What happens when you click on a planet (showing climates/climate modifiers)
