@@ -1,0 +1,147 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3plcup55shl3"]
+
+[ext_resource type="PackedScene" uid="uid://cnuc4iitfvkww" path="res://scenes/planet/planet_hud_label.tscn" id="1_ainfy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3muf"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.113725, 0.113725, 0.113725, 0.635294)
+
+[node name="PlanetHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 122.0
+offset_bottom = 497.0
+theme_override_constants/separation = 15
+
+[node name="PlanetStats" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d3muf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlanetStats"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="VBoxContainer/PlanetStats/VBoxContainer"]
+layout_mode = 2
+text = "Planet Tung"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/PlanetStats/VBoxContainer"]
+layout_mode = 2
+
+[node name="Temp" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Temp" index="0"]
+text = "Temp"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Temp" index="1"]
+min_value = -1.0
+max_value = 1.0
+show_percentage = false
+
+[node name="Oxygen" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Oxygen" index="0"]
+text = "Oxygen"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Oxygen" index="1"]
+max_value = 1.0
+
+[node name="Carbon Dioxide" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide" index="0"]
+text = "CO2"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide" index="1"]
+max_value = 1.0
+
+[node name="Land_Water" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Land_Water" index="0"]
+text = "Wat/Lan"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Land_Water" index="1"]
+max_value = 1.0
+show_percentage = false
+
+[node name="PlanetStats2" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d3muf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlanetStats2"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="VBoxContainer/PlanetStats2/VBoxContainer"]
+layout_mode = 2
+text = "Planet Tung"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/PlanetStats2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Temp" parent="VBoxContainer/PlanetStats2/VBoxContainer" instance=ExtResource("1_ainfy")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats2/VBoxContainer/Temp" index="0"]
+text = "Temp"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats2/VBoxContainer/Temp" index="1"]
+min_value = -1.0
+max_value = 1.0
+show_percentage = false
+
+[node name="Oxygen" parent="VBoxContainer/PlanetStats2/VBoxContainer" instance=ExtResource("1_ainfy")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats2/VBoxContainer/Oxygen" index="0"]
+text = "Oxygen"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats2/VBoxContainer/Oxygen" index="1"]
+max_value = 1.0
+
+[node name="Carbon Dioxide" parent="VBoxContainer/PlanetStats2/VBoxContainer" instance=ExtResource("1_ainfy")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats2/VBoxContainer/Carbon Dioxide" index="0"]
+text = "CO2"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats2/VBoxContainer/Carbon Dioxide" index="1"]
+max_value = 1.0
+
+[node name="Land_Water" parent="VBoxContainer/PlanetStats2/VBoxContainer" instance=ExtResource("1_ainfy")]
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/PlanetStats2/VBoxContainer/Land_Water" index="0"]
+text = "Wat/Lan"
+
+[node name="ProgressBar" parent="VBoxContainer/PlanetStats2/VBoxContainer/Land_Water" index="1"]
+max_value = 1.0
+show_percentage = false
+
+[editable path="VBoxContainer/PlanetStats/VBoxContainer/Temp"]
+[editable path="VBoxContainer/PlanetStats/VBoxContainer/Oxygen"]
+[editable path="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide"]
+[editable path="VBoxContainer/PlanetStats/VBoxContainer/Land_Water"]
+[editable path="VBoxContainer/PlanetStats2/VBoxContainer/Temp"]
+[editable path="VBoxContainer/PlanetStats2/VBoxContainer/Oxygen"]
+[editable path="VBoxContainer/PlanetStats2/VBoxContainer/Carbon Dioxide"]
+[editable path="VBoxContainer/PlanetStats2/VBoxContainer/Land_Water"]
