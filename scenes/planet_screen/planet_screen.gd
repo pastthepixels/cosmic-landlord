@@ -26,6 +26,9 @@ func generate_planets():
 		var planet = planet_scene.instantiate()
 		var pos = generate_planet_position()
 		planet.position = Vector3(pos.x, 0, pos.y)
+		planet.connect("clicked", _on_planet_clicked)
+		planet.connect("exited_view", _on_planet_exited_view)
+		planet.connect("purchase_requested", _on_planet_purchase_requested)
 		$Planets.add_child(planet)
 	# Initialize planets.
 	for planet in get_tree().get_nodes_in_group("planets"):
@@ -50,3 +53,45 @@ func generate_planet_position() -> Vector2:
 		if Vector3(pos.x, 0, pos.y).distance_to(planet.position) < 3:
 			return generate_planet_position()
 	return pos
+
+func _on_planet_clicked(planet):
+	if $SpringArm3D.enable_mouse_controls == false: return
+	# Stop moving the spring arm and disable moving it
+	$SpringArm3D.movement_velocity = Vector3()
+	$SpringArm3D.enable_mouse_controls = false
+	# Zoom into the planet
+	var tween = get_tree().create_tween()
+	tween.tween_property($SpringArm3D, "position", planet.position, 0.5).set_trans(Tween.TRANS_SINE)
+	tween.tween_property($SpringArm3D, "spring_length", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	# Show controls for the planet
+	planet.show_hud()
+
+func _on_planet_exited_view(planet):
+	# Re-enable mouse controls/hide planet HUD
+	$SpringArm3D.enable_mouse_controls = true
+	planet.hide_hud()
+	# Move out camera
+	var tween = get_tree().create_tween()
+	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+# Purchasing planets!
+func _on_planet_purchase_requested(planet):
+	if $Player.money - planet.price >= 0 and is_touching_purchased(planet):
+		$Player.money -= planet.price
+		planet.unlock()
+		for line in get_tree().get_nodes_in_group("lines"):
+			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
+				line.set_color(Color.WHITE)
+	elif $Player.money - planet.price < 0:
+		print("Not enough money!!")
+	elif !is_touching_purchased(planet):
+		print("Not touching planet!")
+
+func is_touching_purchased(planet):
+	var purchased_lines_exist = false
+	for line in get_tree().get_nodes_in_group("lines"):
+			if get_node(line.from_object).purchased or get_node(line.to_object).purchased: purchased_lines_exist = true
+			if (line.to_object == planet.get_path() and get_node(line.from_object).purchased) or \
+			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
+				return true
+	return false if purchased_lines_exist else true

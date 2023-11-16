@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bugrt3bo0ibvi"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_yj1ut"]
+
+[node name="Player" type="Node"]
+script = ExtResource("1_yj1ut")
+money = 1000000
