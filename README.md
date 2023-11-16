@@ -7,7 +7,7 @@ To Do:
 - [ ] Main menu screen
 - [ ] Buying planets
 - [x] Climates
-- [ ] What happens when you click on a planet (showing climates/climate modifiers)
+- [x] What happens when you click on a planet (showing climates/climate modifiers)
 - [ ] Climate modifiers:
 	- [ ] Plants
 	- [ ] Water syntheziers
