@@ -6,9 +6,11 @@ extends SpringArm3D
 
 @export var max_zoom : int = 10
 
+@export var enable_mouse_controls : bool = true
+
 var movement_velocity = Vector3()
 
-var use_mouse_controls = true
+var _use_mouse_controls = true
 
 
 # Called when the node enters the scene tree for the first time.
@@ -27,14 +29,14 @@ func _process(delta):
 		mouse_pos_normalized.y < (movement_threshold) or \
 		mouse_pos_normalized.x > (1 - movement_threshold) or \
 		mouse_pos_normalized.x < (movement_threshold)) and \
-		use_mouse_controls:
+		enable_mouse_controls and _use_mouse_controls:
 		var amount = (mouse_pos_normalized - Vector2(0.5, 0.5)) * speed * delta * (spring_length / max_zoom)
 		movement_velocity.z = amount.y
 		movement_velocity.x = amount.x
 
 func _input(event):
 	# Scrolling
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and enable_mouse_controls:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and spring_length - 1  >= 1:
 			spring_length -= 1
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and spring_length + 1 <= max_zoom:
@@ -43,6 +45,6 @@ func _input(event):
 func _notification(notif):
 	match notif:
 		NOTIFICATION_WM_MOUSE_EXIT:
-			use_mouse_controls = false
+			_use_mouse_controls = false
 		NOTIFICATION_WM_MOUSE_ENTER:
-			use_mouse_controls = true
+			_use_mouse_controls = true

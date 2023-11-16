@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cnuc4iitfvkww"]
+
+[node name="PlanetHUD Label" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "T:"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1

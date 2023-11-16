@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=8 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
+[ext_resource type="PackedScene" uid="uid://bugrt3bo0ibvi" path="res://scenes/player/player.tscn" id="2_tpxrh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
 shader = ExtResource("2_r7y0b")
@@ -18,6 +19,8 @@ sky = SubResource("Sky_gop4l")
 [node name="PlanetScreen" type="Node3D"]
 script = ExtResource("1_2l1pr")
 planets = 30
+
+[node name="Player" parent="." instance=ExtResource("2_tpxrh")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sx0eq")
@@ -36,3 +39,4 @@ script = ExtResource("1_du1fq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="Planets" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0334654, 0, 0)

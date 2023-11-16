@@ -5,9 +5,9 @@ To Do:
 ## What we have to do
 - [x] Add shaders for planets
 - [ ] Main menu screen
-- [ ] Buying planets
+- [x] Buying planets
 - [x] Climates
-- [ ] What happens when you click on a planet (showing climates/climate modifiers)
+- [x] What happens when you click on a planet (showing climates/climate modifiers)
 - [ ] Climate modifiers:
 	- [ ] Plants
 	- [ ] Water syntheziers
@@ -15,4 +15,5 @@ To Do:
 	- [ ] Carbon capture devices
 	- [ ] Housing
 	- [ ] Farms
+- [ ] Purchasing climate modifiers
 - [ ] People
