@@ -24,7 +24,7 @@ data = PackedVector3Array(0, 0.5, 0, 0, 0.5, 0, 0, 0.4977, 0.0475, 0, 0.5, 0, 0.
 [node name="Planet" type="Node3D" groups=["planets"]]
 script = ExtResource("1_2wp60")
 randomly_generated_climate = true
-purchased = true
+price = 100000
 
 [node name="PlanetHUD" parent="." instance=ExtResource("2_gnqbb")]
 visible = false
@@ -43,4 +43,5 @@ collision_mask = 2
 shape = SubResource("ConcavePolygonShape3D_c6o1j")
 
 [connection signal="exited" from="PlanetHUD" to="." method="_on_planet_hud_exited"]
+[connection signal="purchase_pressed" from="PlanetHUD" to="." method="_on_planet_hud_purchase_pressed"]
 [connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

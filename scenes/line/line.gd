@@ -52,6 +52,12 @@ func generate_mesh():
 	rotate_z(PI/2)
 	rotate_y(PI - get_angle_2d())
 
+func set_color(color):
+	material_override.albedo_color = color
+
+func get_color() -> Color:
+	return material_override.albedo_color
+
 func generate_area():
 	var shape = CollisionShape3D.new()
 	shape.shape = CylinderShape3D.new()
@@ -63,8 +69,3 @@ func generate_area():
 func connect_objects(from, to):
 	self.from_object = from.get_path()
 	self.to_object = to.get_path()
-
-func _on_area_3d_area_entered(area):
-	var mat = StandardMaterial3D.new()
-	mat.albedo = Color.RED
-	material_override = mat

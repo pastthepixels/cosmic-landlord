@@ -23,6 +23,8 @@ signal clicked
 
 signal exited_view
 
+signal purchase_requested
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
@@ -33,10 +35,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	get_node("PlanetHUD/%Temp/ProgressBar").value = temperature_level
-	get_node("PlanetHUD/%Oxygen/ProgressBar").value = oxygen_level
-	get_node("PlanetHUD/%Carbon Dioxide/ProgressBar").value = carbon_dioxide_level
-	get_node("PlanetHUD/%Land_Water/ProgressBar").value = water_to_land_ratio
+	$PlanetHUD.update(self)
 
 func generate_random_climate():
 	temperature_level	 = rng.randf_range(-1, 1)
@@ -75,6 +74,12 @@ func show_hud():
 func hide_hud():
 	$PlanetHUD.hide()
 
+func unlock():
+	self.purchased = true
+	$PlanetHUD.unlock()
 
 func _on_planet_hud_exited():
 	emit_signal("exited_view", self)
+
+func _on_planet_hud_purchase_pressed():
+	emit_signal("purchase_requested", self)
