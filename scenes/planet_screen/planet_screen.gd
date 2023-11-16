@@ -27,6 +27,7 @@ func generate_planets():
 		var pos = generate_planet_position()
 		planet.position = Vector3(pos.x, 0, pos.y)
 		planet.connect("clicked", _on_planet_clicked)
+		planet.connect("exited_view", _on_planet_exited_view)
 		$Planets.add_child(planet)
 	# Initialize planets.
 	for planet in get_tree().get_nodes_in_group("planets"):
@@ -53,13 +54,21 @@ func generate_planet_position() -> Vector2:
 	return pos
 
 func _on_planet_clicked(planet):
+	if $SpringArm3D.enable_mouse_controls == false: return
 	# Stop moving the spring arm and disable moving it
 	$SpringArm3D.movement_velocity = Vector3()
 	$SpringArm3D.enable_mouse_controls = false
 	# Zoom into the planet
 	var tween = get_tree().create_tween()
 	tween.tween_property($SpringArm3D, "position", planet.position, 0.5).set_trans(Tween.TRANS_SINE)
-	tween.tween_property($SpringArm3D, "spring_length", 1, 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property($SpringArm3D, "spring_length", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Show controls for the planet
 	planet.show_hud()
 
+func _on_planet_exited_view(planet):
+	# Re-enable mouse controls/hide planet HUD
+	$SpringArm3D.enable_mouse_controls = true
+	planet.hide_hud()
+	# Move out camera
+	var tween = get_tree().create_tween()
+	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

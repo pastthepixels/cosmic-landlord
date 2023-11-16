@@ -13,15 +13,22 @@ extends Node3D
 # Percentage of surface occupied by water
 @export_range(0, 1) var water_to_land_ratio : float # TODO: water to land ratio?
 
+@export_category("Purchasing")
+@export var price : int
+@export var purchased : bool
+
 var rng = RandomNumberGenerator.new()
 
 signal clicked
+
+signal exited_view
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
 	if randomly_generated_climate:
 		generate_random_climate()
+	$PlanetHUD.set_up(self)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,3 +71,10 @@ func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
 
 func show_hud():
 	$PlanetHUD.show()
+
+func hide_hud():
+	$PlanetHUD.hide()
+
+
+func _on_planet_hud_exited():
+	emit_signal("exited_view", self)
