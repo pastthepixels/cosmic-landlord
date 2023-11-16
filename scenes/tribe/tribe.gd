@@ -43,3 +43,15 @@ func gen_name():
 		if tribe != self and tribe.name == generated_name:
 			return gen_name()
 	return generated_name
+
+# Climate similarity:
+# the amount of the largest distance between any given values representing a climate
+# (for instance, if the temperature has the largest difference, it is used)
+# 1 == most similar (matching)
+func get_climate_similarity(planet):
+	return 1 - max(
+			abs(self.temperature_level - planet.temperature_level),
+			abs(self.oxygen_level - planet.oxygen_level),
+			abs(self.carbon_dioxide_level - planet.carbon_dioxide_level),
+			abs(self.water_to_land_ratio - planet.water_to_land_ratio)
+		)

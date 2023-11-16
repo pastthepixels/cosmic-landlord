@@ -22,7 +22,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	$DebugBar.value = $PayCycle.time_left / $PayCycle.wait_time
 
 func generate_tribes():
 	for i in tribes:
@@ -105,3 +105,13 @@ func is_touching_purchased(planet):
 			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
 				return true
 	return false if purchased_lines_exist else true
+
+
+func _on_pay_cycle_timeout():
+	for planet in get_tree().get_nodes_in_group("planets"):
+		if planet.purchased:
+			for tribe in get_tree().get_nodes_in_group("tribes"):
+				$Player.money += planet.population[tribe.name] * tribe.payback
+			# also update people
+			planet.update_population()
+	#print($Player.money)

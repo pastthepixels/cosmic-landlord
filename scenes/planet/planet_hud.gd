@@ -24,6 +24,7 @@ func add_population_sliders(planet):
 		$%Population/VBoxContainer.add_child(label)
 
 func update(planet):
+	# Planet stats
 	$%PlanetStats.set_stats(
 		planet.temperature_level,
 		planet.oxygen_level,
@@ -31,13 +32,13 @@ func update(planet):
 		planet.water_to_land_ratio,
 		"Planet " + planet.planet_name
 	)
+	# Tribes
 	for tribe in planet.population:
 		if has_node("%" + ("Population/VBoxContainer/%s" % tribe)):
-			print(true)
 			get_node("%" + ("Population/VBoxContainer/%s" % tribe)).visible = planet.population[tribe] > 0
 			get_node("%" + ("Population/VBoxContainer/%s/Label" % tribe)).text = (tribe + ": %d") % planet.population[tribe]
 	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
-	
+	# Purchasing
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
 
 func unlock():

@@ -21,12 +21,18 @@ extends Node3D
 @export var planet_name = ""
 @export var generate_name : bool = false
 
-@export var max_population: int = 1000000
+@export_category("Populations")
+@export var max_population : int = 1000000
+@export var max_population_rate : int = 1000
+# Adjusts just how much a close climate affects a population rate
+@export_range(0, 1) var population_rate_gradient : float = 1
 
 
 @onready var names_file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
 
 var population = {}
+
+var population_rate = {}
 
 var rng = RandomNumberGenerator.new()
 
@@ -98,7 +104,15 @@ func unlock():
 func fill_population():
 	for tribe in get_tree().get_nodes_in_group("tribes"):
 		population[tribe.name] = 0
+		population_rate[tribe.name] = 0
 	$PlanetHUD.add_population_sliders(self)
+
+func update_population():
+	for tribe in get_tree().get_nodes_in_group("tribes"):
+		population_rate[tribe.name] = int(pow(tribe.get_climate_similarity(self) - 0.5, population_rate_gradient) * max_population_rate)
+		if population[tribe.name] + population_rate[tribe.name] >= 0 \
+			and (get_population_count() + population_rate[tribe.name]) <= max_population:
+			population[tribe.name] += population_rate[tribe.name]
 
 func get_population_count():
 	var count = 0

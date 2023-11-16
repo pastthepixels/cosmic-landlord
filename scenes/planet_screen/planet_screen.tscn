@@ -20,6 +20,19 @@ sky = SubResource("Sky_gop4l")
 script = ExtResource("1_2l1pr")
 planets = 30
 
+[node name="PayCycle" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="DebugBar" type="ProgressBar" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+offset_right = 190.0
+grow_vertical = 0
+max_value = 1.0
+
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -42,3 +55,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0334654, 0, 0)
 
 [node name="Tribes" type="Node" parent="."]
+
+[connection signal="timeout" from="PayCycle" to="." method="_on_pay_cycle_timeout"]
