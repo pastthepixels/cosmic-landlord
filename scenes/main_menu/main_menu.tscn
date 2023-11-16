@@ -2,13 +2,10 @@
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_rndma"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/mainmenubg.gdshader" id="2_jbop5"]
+[ext_resource type="Theme" uid="uid://ymjmqc6cyd1i" path="res://scenes/main_menu/main_menu_theme.tres" id="3_1m83w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ix8b"]
 shader = ExtResource("2_jbop5")
-
-[sub_resource type="Theme" id="Theme_hts0c"]
-Button/font_sizes/font_size = 24
-VBoxContainer/constants/separation = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_thm06"]
 font_size = 100
@@ -45,7 +42,7 @@ offset_right = 46.0
 offset_bottom = 52.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_hts0c")
+theme = ExtResource("3_1m83w")
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
