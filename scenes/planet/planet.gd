@@ -76,6 +76,7 @@ func hide_hud():
 
 func unlock():
 	self.purchased = true
+	$MeshInstance3D.material_overlay.albedo_color.a = 1
 	$PlanetHUD.unlock()
 
 func _on_planet_hud_exited():

@@ -1,8 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbk22ou8eywq8"]
+[gd_scene load_steps=10 format=3 uid="uid://dbk22ou8eywq8"]
 
 [ext_resource type="Script" path="res://scenes/planet/planet.gd" id="1_2wp60"]
 [ext_resource type="Shader" path="res://scenes/planet/planet.gdshader" id="2_e4eum"]
 [ext_resource type="PackedScene" uid="uid://d3plcup55shl3" path="res://scenes/planet/planet_hud.tscn" id="2_gnqbb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnvss"]
+resource_local_to_scene = true
+transparency = 1
+cull_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0)
+grow = true
+grow_amount = 0.02
 
 [sub_resource type="Gradient" id="Gradient_60vfi"]
 colors = PackedColorArray(0.892099, 0.319418, 0.0655331, 1, 0, 0.617908, 0.122142, 1)
@@ -33,6 +42,7 @@ visible = false
 collision_mask = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_overlay = SubResource("StandardMaterial3D_rnvss")
 mesh = SubResource("SphereMesh_yjuop")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]

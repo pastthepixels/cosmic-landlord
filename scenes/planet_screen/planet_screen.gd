@@ -82,6 +82,10 @@ func _on_planet_purchase_requested(planet):
 		for line in get_tree().get_nodes_in_group("lines"):
 			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
 				line.set_color(Color.WHITE)
+	elif $Player.money - planet.price < 0:
+		print("Not enough money!!")
+	elif !is_touching_purchased(planet):
+		print("Not touching planet!")
 
 func is_touching_purchased(planet):
 	var purchased_lines_exist = false
