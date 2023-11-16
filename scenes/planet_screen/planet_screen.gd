@@ -2,9 +2,13 @@ extends Node3D
 
 @export var planets : int = 20
 
+@export var tribes : int = 5
+
 var planet_scene = preload("res://scenes/planet/planet.tscn")
 
 var line_scene = preload("res://scenes/line/line.tscn")
+
+var tribe_scene = preload("res://scenes/tribe/tribe.tscn")
 
 var rng = RandomNumberGenerator.new()
 
@@ -12,12 +16,18 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
+	generate_tribes()
 	generate_planets()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func generate_tribes():
+	for i in tribes:
+		var tribe = tribe_scene.instantiate()
+		$Tribes.add_child(tribe)
 
 # TODO: in the future, voronoi noise
 func generate_planets():

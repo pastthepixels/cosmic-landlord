@@ -11,7 +11,7 @@ extends Node3D
 # Nitrogen level: percentage
 #@export_range(0, 1) var nitrogen_level : float
 # Percentage of surface occupied by water
-@export_range(0, 1) var water_to_land_ratio : float # TODO: water to land ratio?
+@export_range(0, 1) var water_to_land_ratio : float
 
 @export_category("Purchasing")
 @export var price : int
@@ -20,6 +20,13 @@ extends Node3D
 @export_category("Other")
 @export var planet_name = ""
 @export var generate_name : bool = false
+
+@export var max_population: int = 1000000
+
+
+@onready var names_file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
+
+var population = {}
 
 var rng = RandomNumberGenerator.new()
 
@@ -37,7 +44,7 @@ func _ready():
 	if generate_name:
 		planet_name = gen_name()
 	$PlanetHUD.set_up(self)
-
+	fill_population()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -87,13 +94,26 @@ func unlock():
 	$MeshInstance3D.material_overlay.albedo_color.a = 1
 	$PlanetHUD.unlock()
 
+# Fills up the "population" array
+func fill_population():
+	for tribe in get_tree().get_nodes_in_group("tribes"):
+		population[tribe.name] = 0
+	$PlanetHUD.add_population_sliders(self)
+
+func get_population_count():
+	var count = 0
+	for tribe in population:
+		count += population[tribe]
+	return count
+
 func gen_name():
-	var file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
-	var possible_names = file.get_as_text().split("\n")
-	var generated_name = possible_names[rng.randi_range(0, possible_names.size())]
+	var possible_names = names_file.get_as_text().split("\n")
+	var generated_name = possible_names[rng.randi_range(0, possible_names.size() - 1)].strip_edges()
+	# Checks to see if the name is blank (for some reason???)
+	if generated_name.length() <= 0: return gen_name()
 	# Checks to see if the name doesn't already exist
 	for planet in get_tree().get_nodes_in_group("planets"):
-		if planet.name.strip_edges() == generated_name.strip_edges():
+		if planet != self and planet.planet_name == generated_name:
 			return gen_name()
 	return generated_name
 
