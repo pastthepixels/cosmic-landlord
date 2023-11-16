@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3plcup55shl3"]
+[gd_scene load_steps=6 format=3 uid="uid://d3plcup55shl3"]
 
 [ext_resource type="PackedScene" uid="uid://cnuc4iitfvkww" path="res://scenes/planet/planet_hud_label.tscn" id="1_ainfy"]
 [ext_resource type="Script" path="res://scenes/planet/planet_hud.gd" id="1_irpwn"]
+[ext_resource type="PackedScene" uid="uid://cja7r5281x755" path="res://scenes/planet_hud/planet_stats.tscn" id="2_wls3g"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gokga"]
 content_margin_left = 30.0
@@ -41,63 +42,9 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Purchase"
 
-[node name="PlanetStats" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_d3muf")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PlanetStats"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Title" type="Label" parent="VBoxContainer/PlanetStats/VBoxContainer"]
-layout_mode = 2
-text = "Planet"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/PlanetStats/VBoxContainer"]
-layout_mode = 2
-
-[node name="Temp" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
+[node name="PlanetStats" parent="VBoxContainer" instance=ExtResource("2_wls3g")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Temp" index="0"]
-text = "Temp"
-
-[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Temp" index="1"]
-min_value = -1.0
-max_value = 1.0
-show_percentage = false
-
-[node name="Oxygen" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Oxygen" index="0"]
-text = "Oxygen"
-
-[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Oxygen" index="1"]
-max_value = 1.0
-
-[node name="Carbon Dioxide" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide" index="0"]
-text = "CO2"
-
-[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide" index="1"]
-max_value = 1.0
-
-[node name="Land_Water" parent="VBoxContainer/PlanetStats/VBoxContainer" instance=ExtResource("1_ainfy")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" parent="VBoxContainer/PlanetStats/VBoxContainer/Land_Water" index="0"]
-text = "Water"
-
-[node name="ProgressBar" parent="VBoxContainer/PlanetStats/VBoxContainer/Land_Water" index="1"]
-max_value = 1.0
 
 [node name="Machines" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -153,8 +100,4 @@ max_value = 1.0
 [connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/PurchaseButton" to="." method="_on_purchase_button_pressed"]
 
-[editable path="VBoxContainer/PlanetStats/VBoxContainer/Temp"]
-[editable path="VBoxContainer/PlanetStats/VBoxContainer/Oxygen"]
-[editable path="VBoxContainer/PlanetStats/VBoxContainer/Carbon Dioxide"]
-[editable path="VBoxContainer/PlanetStats/VBoxContainer/Land_Water"]
 [editable path="VBoxContainer/Population/VBoxContainer/PopTotal"]

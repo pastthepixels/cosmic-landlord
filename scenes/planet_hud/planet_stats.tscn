@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://cja7r5281x755"]
+
+[ext_resource type="Script" path="res://scenes/planet_hud/planet_stats.gd" id="1_8p358"]
+[ext_resource type="PackedScene" uid="uid://cnuc4iitfvkww" path="res://scenes/planet/planet_hud_label.tscn" id="1_btm2l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3muf"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.113725, 0.113725, 0.113725, 0.635294)
+
+[node name="PlanetStats" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_d3muf")
+script = ExtResource("1_8p358")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Planet"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Temp" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/Temp" index="0"]
+text = "Temp"
+
+[node name="ProgressBar" parent="VBoxContainer/Temp" index="1"]
+min_value = -1.0
+max_value = 1.0
+show_percentage = false
+
+[node name="Oxygen" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/Oxygen" index="0"]
+text = "Oxygen"
+
+[node name="ProgressBar" parent="VBoxContainer/Oxygen" index="1"]
+max_value = 1.0
+
+[node name="Carbon Dioxide" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/Carbon Dioxide" index="0"]
+text = "CO2"
+
+[node name="ProgressBar" parent="VBoxContainer/Carbon Dioxide" index="1"]
+max_value = 1.0
+
+[node name="Land_Water" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="VBoxContainer/Land_Water" index="0"]
+text = "Water"
+
+[node name="ProgressBar" parent="VBoxContainer/Land_Water" index="1"]
+max_value = 1.0
+
+[editable path="VBoxContainer/Temp"]
+[editable path="VBoxContainer/Oxygen"]
+[editable path="VBoxContainer/Carbon Dioxide"]
+[editable path="VBoxContainer/Land_Water"]

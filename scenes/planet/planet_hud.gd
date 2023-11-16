@@ -15,10 +15,13 @@ func set_up(planet):
 		unlock()
 
 func update(planet):
-	$%Temp/ProgressBar.value = planet.temperature_level
-	$%Oxygen/ProgressBar.value = planet.oxygen_level
-	$"%Carbon Dioxide/ProgressBar".value = planet.carbon_dioxide_level
-	$%Land_Water/ProgressBar.value = planet.water_to_land_ratio
+	$%PlanetStats.set_stats(
+		planet.temperature_level,
+		planet.oxygen_level,
+		planet.carbon_dioxide_level,
+		planet.water_to_land_ratio,
+		"Planet"
+	)
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
 
 func unlock():
