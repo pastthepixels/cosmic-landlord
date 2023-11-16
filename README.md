@@ -15,4 +15,5 @@ To Do:
 	- [ ] Carbon capture devices
 	- [ ] Housing
 	- [ ] Farms
+- [ ] Purchasing climate modifiers
 - [ ] People
