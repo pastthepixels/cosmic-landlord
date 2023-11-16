@@ -20,7 +20,7 @@ func update(planet):
 		planet.oxygen_level,
 		planet.carbon_dioxide_level,
 		planet.water_to_land_ratio,
-		"Planet"
+		"Planet " + planet.planet_name
 	)
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
 

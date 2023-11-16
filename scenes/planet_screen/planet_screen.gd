@@ -85,7 +85,7 @@ func _on_planet_purchase_requested(planet):
 	elif $Player.money - planet.price < 0:
 		print("Not enough money!!")
 	elif !is_touching_purchased(planet):
-		print("Not touching planet!")
+		print("Not touching a planet!")
 
 func is_touching_purchased(planet):
 	var purchased_lines_exist = false

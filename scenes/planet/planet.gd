@@ -17,6 +17,10 @@ extends Node3D
 @export var price : int
 @export var purchased : bool
 
+@export_category("Other")
+@export var planet_name = ""
+@export var generate_name : bool = false
+
 var rng = RandomNumberGenerator.new()
 
 signal clicked
@@ -30,6 +34,8 @@ func _ready():
 	rng.randomize()
 	if randomly_generated_climate:
 		generate_random_climate()
+	if generate_name:
+		planet_name = gen_name()
 	$PlanetHUD.set_up(self)
 
 
@@ -80,6 +86,16 @@ func unlock():
 	self.purchased = true
 	$MeshInstance3D.material_overlay.albedo_color.a = 1
 	$PlanetHUD.unlock()
+
+func gen_name():
+	var file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
+	var possible_names = file.get_as_text().split("\n")
+	var generated_name = possible_names[rng.randi_range(0, possible_names.size())]
+	# Checks to see if the name doesn't already exist
+	for planet in get_tree().get_nodes_in_group("planets"):
+		if planet.name.strip_edges() == generated_name.strip_edges():
+			return gen_name()
+	return generated_name
 
 func _on_planet_hud_exited():
 	emit_signal("exited_view", self)
