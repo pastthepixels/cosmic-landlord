@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dbk22ou8eywq8"]
+[gd_scene load_steps=10 format=3 uid="uid://dbk22ou8eywq8"]
 
 [ext_resource type="Script" path="res://scenes/planet/planet.gd" id="1_2wp60"]
 [ext_resource type="PackedScene" uid="uid://birv6x0nxbgsj" path="res://scenes/machines/machine_purchase_screen.tscn" id="2_5pc5a"]
