@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://033x5ei5sxvi"]
+[gd_scene load_steps=7 format=3 uid="uid://033x5ei5sxvi"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_rndma"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/mainmenubg.gdshader" id="2_jbop5"]
 [ext_resource type="Theme" uid="uid://ymjmqc6cyd1i" path="res://scenes/main_menu/main_menu_theme.tres" id="3_1m83w"]
+[ext_resource type="AudioStream" uid="uid://dxp5qh5lblwbp" path="res://res/menuthemeloopable.ogg" id="4_qutdk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ix8b"]
 shader = ExtResource("2_jbop5")
@@ -62,6 +63,10 @@ text = "Play"
 [node name="QuitButton" type="Button" parent="VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 text = "Quit Game"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qutdk")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/ButtonsContainer/PlayButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsContainer/QuitButton" to="." method="_on_quit_button_pressed"]

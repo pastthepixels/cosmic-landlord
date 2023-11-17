@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=12 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bugrt3bo0ibvi" path="res://scenes/player/player.tscn" id="2_tpxrh"]
 [ext_resource type="PackedScene" uid="uid://bl8csdkwymeym" path="res://scenes/game_end_screens/game_win_screen.tscn" id="3_7xahq"]
 [ext_resource type="PackedScene" uid="uid://b4ft1ksu7k48e" path="res://scenes/game_end_screens/game_over_screen.tscn" id="4_5bttk"]
+[ext_resource type="AudioStream" uid="uid://xeuj3clmuxl1" path="res://res/ingamethemeloopable.ogg" id="8_ba4da"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
 shader = ExtResource("2_r7y0b")
@@ -59,5 +60,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0334654, 0, 0)
 
 [node name="Tribes" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ba4da")
+autoplay = true
 
 [connection signal="timeout" from="PayCycle" to="." method="_on_pay_cycle_timeout"]
