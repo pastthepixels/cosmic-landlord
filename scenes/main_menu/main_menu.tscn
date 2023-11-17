@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://033x5ei5sxvi"]
+[gd_scene load_steps=8 format=3 uid="uid://033x5ei5sxvi"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_rndma"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/mainmenubg.gdshader" id="2_jbop5"]
 [ext_resource type="Theme" uid="uid://ymjmqc6cyd1i" path="res://scenes/main_menu/main_menu_theme.tres" id="3_1m83w"]
 [ext_resource type="AudioStream" uid="uid://dxp5qh5lblwbp" path="res://res/menuthemeloopable.ogg" id="4_qutdk"]
+[ext_resource type="AudioStream" uid="uid://cnhgjjvcvr00g" path="res://res/drumfill.ogg" id="5_oykl3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ix8b"]
 shader = ExtResource("2_jbop5")
@@ -64,9 +65,25 @@ text = "Play"
 layout_mode = 2
 text = "Quit Game"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MenuTheme" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_qutdk")
 autoplay = true
 
+[node name="DrumFill" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_oykl3")
+volume_db = 1.0
+
+[node name="FadeRect" type="ColorRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [connection signal="pressed" from="VBoxContainer/ButtonsContainer/PlayButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="finished" from="DrumFill" to="." method="_on_drum_fill_finished"]
