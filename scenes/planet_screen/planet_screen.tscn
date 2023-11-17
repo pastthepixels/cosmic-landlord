@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=9 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
+[ext_resource type="PackedScene" uid="uid://d0mekwjcuvsvg" path="res://scenes/demand_hud/demand_hud.tscn" id="2_tp2uc"]
 [ext_resource type="PackedScene" uid="uid://bugrt3bo0ibvi" path="res://scenes/player/player.tscn" id="2_tpxrh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3gqj"]
@@ -19,6 +20,12 @@ sky = SubResource("Sky_gop4l")
 [node name="PlanetScreen" type="Node3D"]
 script = ExtResource("1_2l1pr")
 planets = 30
+
+[node name="DemandHUD" parent="." instance=ExtResource("2_tp2uc")]
+
+[node name="PayCycle" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
 
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]
 
@@ -40,3 +47,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 
 [node name="Planets" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0334654, 0, 0)
+
+[node name="Tribes" type="Node" parent="."]
+
+[connection signal="timeout" from="PayCycle" to="." method="_on_pay_cycle_timeout"]

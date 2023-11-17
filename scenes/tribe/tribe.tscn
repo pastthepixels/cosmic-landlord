@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5qt522fojsv7"]
+
+[ext_resource type="Script" path="res://scenes/tribe/tribe.gd" id="1_3r3yx"]
+
+[node name="Tribe" type="Node" groups=["tribes"]]
+script = ExtResource("1_3r3yx")
+randomly_generated_climate = true
+payback = 2

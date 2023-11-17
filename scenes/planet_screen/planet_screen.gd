@@ -2,9 +2,13 @@ extends Node3D
 
 @export var planets : int = 20
 
+@export var tribes : int = 5
+
 var planet_scene = preload("res://scenes/planet/planet.tscn")
 
 var line_scene = preload("res://scenes/line/line.tscn")
+
+var tribe_scene = preload("res://scenes/tribe/tribe.tscn")
 
 var rng = RandomNumberGenerator.new()
 
@@ -12,12 +16,19 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
+	generate_tribes()
 	generate_planets()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	$DemandHUD.update($Player.money, $PayCycle.time_left / $PayCycle.wait_time)
+
+func generate_tribes():
+	for i in tribes:
+		var tribe = tribe_scene.instantiate()
+		$Tribes.add_child(tribe)
+	$DemandHUD.initialise()
 
 # TODO: in the future, voronoi noise
 func generate_planets():
@@ -29,6 +40,7 @@ func generate_planets():
 		planet.connect("clicked", _on_planet_clicked)
 		planet.connect("exited_view", _on_planet_exited_view)
 		planet.connect("purchase_requested", _on_planet_purchase_requested)
+		planet.connect("machine_take_money_requested", _on_planet_machine_take_money_requested)
 		$Planets.add_child(planet)
 	# Initialize planets.
 	for planet in get_tree().get_nodes_in_group("planets"):
@@ -54,6 +66,27 @@ func generate_planet_position() -> Vector2:
 			return generate_planet_position()
 	return pos
 
+
+func is_touching_purchased(planet):
+	var purchased_lines_exist = false
+	for line in get_tree().get_nodes_in_group("lines"):
+			if get_node(line.from_object).purchased or get_node(line.to_object).purchased: purchased_lines_exist = true
+			if (line.to_object == planet.get_path() and get_node(line.from_object).purchased) or \
+			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
+				return true
+	return false if purchased_lines_exist else true
+
+# Purchasing planets!
+func _on_planet_purchase_requested(planet):
+	if is_touching_purchased(planet):
+		$Player.money -= planet.price
+		planet.unlock()
+		for line in get_tree().get_nodes_in_group("lines"):
+			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
+				line.set_color(Color.WHITE)
+	elif !is_touching_purchased(planet):
+		print("Not touching a planet!")
+
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
 	# Stop moving the spring arm and disable moving it
@@ -61,8 +94,8 @@ func _on_planet_clicked(planet):
 	$SpringArm3D.enable_mouse_controls = false
 	# Zoom into the planet
 	var tween = get_tree().create_tween()
-	tween.tween_property($SpringArm3D, "position", planet.position, 0.5).set_trans(Tween.TRANS_SINE)
-	tween.tween_property($SpringArm3D, "spring_length", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property($SpringArm3D, "position", planet.position, 0.25).set_trans(Tween.TRANS_SINE)
+	tween.tween_property($SpringArm3D, "spring_length", 1, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Show controls for the planet
 	planet.show_hud()
 
@@ -74,24 +107,14 @@ func _on_planet_exited_view(planet):
 	var tween = get_tree().create_tween()
 	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-# Purchasing planets!
-func _on_planet_purchase_requested(planet):
-	if $Player.money - planet.price >= 0 and is_touching_purchased(planet):
-		$Player.money -= planet.price
-		planet.unlock()
-		for line in get_tree().get_nodes_in_group("lines"):
-			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
-				line.set_color(Color.WHITE)
-	elif $Player.money - planet.price < 0:
-		print("Not enough money!!")
-	elif !is_touching_purchased(planet):
-		print("Not touching planet!")
+func _on_planet_machine_take_money_requested(machine, cost):
+	$Player.money -= cost
 
-func is_touching_purchased(planet):
-	var purchased_lines_exist = false
-	for line in get_tree().get_nodes_in_group("lines"):
-			if get_node(line.from_object).purchased or get_node(line.to_object).purchased: purchased_lines_exist = true
-			if (line.to_object == planet.get_path() and get_node(line.from_object).purchased) or \
-			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
-				return true
-	return false if purchased_lines_exist else true
+func _on_pay_cycle_timeout():
+	for planet in get_tree().get_nodes_in_group("planets"):
+		if planet.purchased:
+			for tribe in get_tree().get_nodes_in_group("tribes"):
+				$Player.money += planet.population[tribe.name] * tribe.payback
+			# also update people
+			planet.update_population()
+	#print($Player.money)
