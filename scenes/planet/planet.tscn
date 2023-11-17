@@ -54,6 +54,8 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_c6o1j")
 
+[node name="Machines" type="Node" parent="."]
+
 [connection signal="exited" from="PlanetHUD" to="." method="_on_planet_hud_exited"]
 [connection signal="purchase_pressed" from="PlanetHUD" to="." method="_on_planet_hud_purchase_pressed"]
 [connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

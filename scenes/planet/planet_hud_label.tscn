@@ -16,3 +16,4 @@ text = "T:"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+max_value = 1.0

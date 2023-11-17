@@ -42,6 +42,8 @@ signal exited_view
 
 signal purchase_requested
 
+signal machine_take_money_requested
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
@@ -136,3 +138,19 @@ func _on_planet_hud_exited():
 
 func _on_planet_hud_purchase_pressed():
 	emit_signal("purchase_requested", self)
+
+
+func set_temperature_level(value):
+	temperature_level = clamp(value, -1, 1)
+
+func set_oxygen_level(value):
+	oxygen_level = clamp(value, 0, 1)
+
+func set_carbon_dioxide_level(value):
+	carbon_dioxide_level = clamp(value, 0, 1)
+
+func set_water_to_land_ratio(value):
+	water_to_land_ratio = clamp(value, 0, 1)
+
+func _on_machine_take_money_request(machine):
+	emit_signal("machine_take_money_requested", machine)

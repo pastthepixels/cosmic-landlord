@@ -23,6 +23,17 @@ func add_population_sliders(planet):
 		label.get_node("ProgressBar").hide()
 		$%Population/VBoxContainer.add_child(label)
 
+func update_machine_sliders(planet):
+	for machine in planet.get_node("Machines").get_children():
+		if has_node("%" + ("Machines/VBoxContainer/%s" % machine.name)):
+			get_node("%" + ("Machines/VBoxContainer/%s/ProgressBar" % machine.name)).value = machine.get_time_left()
+		else:
+			var label = label_scene.instantiate()
+			label.name = machine.name
+			label.get_node("Label").text = machine.name
+			label.get_node("ProgressBar").value = machine.get_time_left()
+			$%Machines/VBoxContainer.add_child(label)
+		
 func update(planet):
 	# Planet stats
 	$%PlanetStats.set_stats(
@@ -40,6 +51,8 @@ func update(planet):
 	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
 	# Purchasing
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
+	# Machine!!
+	if planet.has_node("Machines"): update_machine_sliders(planet)
 
 func unlock():
 	$%PurchaseButton.disabled = true

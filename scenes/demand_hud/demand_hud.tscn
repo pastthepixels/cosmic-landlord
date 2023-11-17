@@ -55,7 +55,6 @@ layout_mode = 2
 text = "Pay in..."
 
 [node name="ProgressBar" parent="VBoxContainer/PaydayCooldown/PlanetHUD Label" index="1"]
-max_value = 1.0
 show_percentage = false
 
 [editable path="VBoxContainer/PaydayCooldown/PlanetHUD Label"]

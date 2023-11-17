@@ -40,6 +40,7 @@ func generate_planets():
 		planet.connect("clicked", _on_planet_clicked)
 		planet.connect("exited_view", _on_planet_exited_view)
 		planet.connect("purchase_requested", _on_planet_purchase_requested)
+		planet.connect("machine_take_money_requested", _on_planet_machine_take_money_requested)
 		$Planets.add_child(planet)
 	# Initialize planets.
 	for planet in get_tree().get_nodes_in_group("planets"):
@@ -65,6 +66,27 @@ func generate_planet_position() -> Vector2:
 			return generate_planet_position()
 	return pos
 
+
+func is_touching_purchased(planet):
+	var purchased_lines_exist = false
+	for line in get_tree().get_nodes_in_group("lines"):
+			if get_node(line.from_object).purchased or get_node(line.to_object).purchased: purchased_lines_exist = true
+			if (line.to_object == planet.get_path() and get_node(line.from_object).purchased) or \
+			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
+				return true
+	return false if purchased_lines_exist else true
+
+# Purchasing planets!
+func _on_planet_purchase_requested(planet):
+	if is_touching_purchased(planet):
+		$Player.money -= planet.price
+		planet.unlock()
+		for line in get_tree().get_nodes_in_group("lines"):
+			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
+				line.set_color(Color.WHITE)
+	elif !is_touching_purchased(planet):
+		print("Not touching a planet!")
+
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
 	# Stop moving the spring arm and disable moving it
@@ -85,28 +107,8 @@ func _on_planet_exited_view(planet):
 	var tween = get_tree().create_tween()
 	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-# Purchasing planets!
-func _on_planet_purchase_requested(planet):
-	if $Player.money - planet.price >= 0 and is_touching_purchased(planet):
-		$Player.money -= planet.price
-		planet.unlock()
-		for line in get_tree().get_nodes_in_group("lines"):
-			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
-				line.set_color(Color.WHITE)
-	elif $Player.money - planet.price < 0:
-		print("Not enough money!!")
-	elif !is_touching_purchased(planet):
-		print("Not touching a planet!")
-
-func is_touching_purchased(planet):
-	var purchased_lines_exist = false
-	for line in get_tree().get_nodes_in_group("lines"):
-			if get_node(line.from_object).purchased or get_node(line.to_object).purchased: purchased_lines_exist = true
-			if (line.to_object == planet.get_path() and get_node(line.from_object).purchased) or \
-			   (line.from_object == planet.get_path() and get_node(line.to_object).purchased):
-				return true
-	return false if purchased_lines_exist else true
-
+func _on_planet_machine_take_money_requested(machine):
+	$Player.money -= machine.delta_cost
 
 func _on_pay_cycle_timeout():
 	for planet in get_tree().get_nodes_in_group("planets"):

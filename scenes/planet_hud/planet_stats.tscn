@@ -36,7 +36,6 @@ text = "Temp"
 
 [node name="ProgressBar" parent="VBoxContainer/Temp" index="1"]
 min_value = -1.0
-max_value = 1.0
 show_percentage = false
 
 [node name="Oxygen" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
@@ -46,9 +45,6 @@ layout_mode = 2
 [node name="Label" parent="VBoxContainer/Oxygen" index="0"]
 text = "Oxygen"
 
-[node name="ProgressBar" parent="VBoxContainer/Oxygen" index="1"]
-max_value = 1.0
-
 [node name="Carbon Dioxide" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -56,18 +52,12 @@ layout_mode = 2
 [node name="Label" parent="VBoxContainer/Carbon Dioxide" index="0"]
 text = "CO2"
 
-[node name="ProgressBar" parent="VBoxContainer/Carbon Dioxide" index="1"]
-max_value = 1.0
-
 [node name="Land_Water" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" parent="VBoxContainer/Land_Water" index="0"]
 text = "Water"
-
-[node name="ProgressBar" parent="VBoxContainer/Land_Water" index="1"]
-max_value = 1.0
 
 [editable path="VBoxContainer/Temp"]
 [editable path="VBoxContainer/Oxygen"]
