@@ -1,7 +1,7 @@
 shader_type spatial;
 
-instance uniform float water: hint_range(0.,1.);
-instance uniform float oxygen: hint_range(0.,1.);
+uniform float water: hint_range(0.,1.);
+uniform float oxygen: hint_range(0.,1.);
 uniform sampler2D gradient: hint_default_black;
 
 // discontinuous pseudorandom uniformly distributed in [-0.5, +0.5]^3
