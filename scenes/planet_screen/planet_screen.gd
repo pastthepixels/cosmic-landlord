@@ -94,8 +94,8 @@ func _on_planet_clicked(planet):
 	$SpringArm3D.enable_mouse_controls = false
 	# Zoom into the planet
 	var tween = get_tree().create_tween()
-	tween.tween_property($SpringArm3D, "position", planet.position, 0.5).set_trans(Tween.TRANS_SINE)
-	tween.tween_property($SpringArm3D, "spring_length", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property($SpringArm3D, "position", planet.position, 0.25).set_trans(Tween.TRANS_SINE)
+	tween.tween_property($SpringArm3D, "spring_length", 1, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Show controls for the planet
 	planet.show_hud()
 
@@ -107,8 +107,8 @@ func _on_planet_exited_view(planet):
 	var tween = get_tree().create_tween()
 	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-func _on_planet_machine_take_money_requested(machine):
-	$Player.money -= machine.delta_cost
+func _on_planet_machine_take_money_requested(machine, cost):
+	$Player.money -= cost
 
 func _on_pay_cycle_timeout():
 	for planet in get_tree().get_nodes_in_group("planets"):

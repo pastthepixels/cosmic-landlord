@@ -18,7 +18,7 @@ var planet
 signal take_money_request
 
 func _ready():
-	if planet_path != null: planet = get_node(planet_path)
+	if planet_path != null and has_node(planet_path): planet = get_node(planet_path)
 
 func get_time_left():
 	return $Timer.time_left / $Timer.wait_time
@@ -28,8 +28,18 @@ func set_planet(planet):
 
 
 func _on_timer_timeout():
-	emit_signal("take_money_request", self)
-	planet.set_temperature_level(planet.temperature_level + delta_temperature_level)
-	planet.set_oxygen_level(planet.oxygen_level + delta_oxygen_level)
-	planet.set_carbon_dioxide_level(planet.carbon_dioxide_level + delta_carbon_dioxide_level)
-	planet.set_water_to_land_ratio(planet.water_to_land_ratio + delta_water_to_land_ratio)
+	if planet != null:
+		emit_signal("take_money_request", self, self.delta_cost)
+		planet.set_temperature_level(planet.temperature_level + delta_temperature_level)
+		planet.set_oxygen_level(planet.oxygen_level + delta_oxygen_level)
+		planet.set_carbon_dioxide_level(planet.carbon_dioxide_level + delta_carbon_dioxide_level)
+		planet.set_water_to_land_ratio(planet.water_to_land_ratio + delta_water_to_land_ratio)
+
+func copy_to(machine):
+	machine.delta_temperature_level = delta_temperature_level
+	machine.delta_oxygen_level = delta_oxygen_level
+	machine.delta_carbon_dioxide_level = delta_carbon_dioxide_level
+	machine.delta_water_to_land_ratio = delta_water_to_land_ratio
+	machine.delta_cost = delta_cost
+	machine.get_node("Timer").wait_time = $Timer.wait_time
+	

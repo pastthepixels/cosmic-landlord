@@ -4,6 +4,8 @@ signal exited
 
 signal purchase_pressed
 
+signal request_purchase_machines
+
 var label_scene = preload("res://scenes/planet/planet_hud_label.tscn")
 
 func _on_back_button_pressed():
@@ -33,7 +35,11 @@ func update_machine_sliders(planet):
 			label.get_node("Label").text = machine.name
 			label.get_node("ProgressBar").value = machine.get_time_left()
 			$%Machines/VBoxContainer.add_child(label)
-		
+
+func remove_machine_slider(machine):
+	if has_node("%" + ("Machines/VBoxContainer/%s" % machine.name)):
+		get_node("%" + ("Machines/VBoxContainer/%s" % machine.name)).queue_free()
+
 func update(planet):
 	# Planet stats
 	$%PlanetStats.set_stats(
@@ -58,3 +64,7 @@ func unlock():
 	$%PurchaseButton.disabled = true
 	$%Machines.show()
 	$%Population.show()
+
+
+func _on_purchase_machine_pressed():
+	emit_signal("request_purchase_machines")

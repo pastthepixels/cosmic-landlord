@@ -24,7 +24,7 @@ planets = 30
 [node name="DemandHUD" parent="." instance=ExtResource("2_tp2uc")]
 
 [node name="PayCycle" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 10.0
 autostart = true
 
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]

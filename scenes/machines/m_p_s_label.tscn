@@ -1,0 +1,121 @@
+[gd_scene load_steps=4 format=3 uid="uid://0d4bcyld4vt0"]
+
+[ext_resource type="PackedScene" uid="uid://clns4ku078tmj" path="res://scenes/machines/m_p_s_row.tscn" id="1_akwbf"]
+[ext_resource type="Script" path="res://scenes/machines/m_p_s_label.gd" id="1_q36qd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7xgc5"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="m_p_s_label" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7xgc5")
+script = ExtResource("1_q36qd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Water Machine II"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="CostPerRun" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/CostPerRun" index="0"]
+text = "Cost per run"
+
+[node name="Value" parent="VBoxContainer/CostPerRun" index="2"]
+text = "$5"
+
+[node name="CooldownTime" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/CooldownTime" index="0"]
+text = "Cooldown time (s)"
+
+[node name="Value" parent="VBoxContainer/CooldownTime" index="2"]
+text = "5"
+
+[node name="delta_temperature_level" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/delta_temperature_level" index="0"]
+text = "Change in temperature level"
+
+[node name="Value" parent="VBoxContainer/delta_temperature_level" index="2"]
+text = "5%"
+
+[node name="delta_oxygen_level" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/delta_oxygen_level" index="0"]
+text = "Change in oxygen level"
+
+[node name="Value" parent="VBoxContainer/delta_oxygen_level" index="2"]
+text = "5%"
+
+[node name="delta_carbon_dioxide_level" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/delta_carbon_dioxide_level" index="0"]
+text = "Change in carbon dioxide level"
+
+[node name="Value" parent="VBoxContainer/delta_carbon_dioxide_level" index="2"]
+text = "5%"
+
+[node name="delta_water_to_land_ratio" parent="VBoxContainer" instance=ExtResource("1_akwbf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Name" parent="VBoxContainer/delta_water_to_land_ratio" index="0"]
+text = "Change in water coverage"
+
+[node name="Value" parent="VBoxContainer/delta_water_to_land_ratio" index="2"]
+text = "5%"
+
+[node name="Destroy" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Destroy"
+
+[node name="Purchase" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Purchase"
+
+[connection signal="pressed" from="VBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
+[connection signal="pressed" from="VBoxContainer/Purchase" to="." method="_on_purchase_pressed"]
+
+[editable path="VBoxContainer/CostPerRun"]
+[editable path="VBoxContainer/CooldownTime"]
+[editable path="VBoxContainer/delta_temperature_level"]
+[editable path="VBoxContainer/delta_oxygen_level"]
+[editable path="VBoxContainer/delta_carbon_dioxide_level"]
+[editable path="VBoxContainer/delta_water_to_land_ratio"]

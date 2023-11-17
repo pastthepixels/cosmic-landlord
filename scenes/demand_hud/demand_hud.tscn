@@ -57,4 +57,9 @@ text = "Pay in..."
 [node name="ProgressBar" parent="VBoxContainer/PaydayCooldown/PlanetHUD Label" index="1"]
 show_percentage = false
 
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Tribes"
+horizontal_alignment = 1
+
 [editable path="VBoxContainer/PaydayCooldown/PlanetHUD Label"]

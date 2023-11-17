@@ -25,7 +25,7 @@ func _ready():
 	if randomly_generated_climate:
 		generate_random_climate()
 	if randomly_generated_payback:
-		payback = rng.randi_range(1, 10)
+		payback = rng.randf_range(1, 2)
 
 func generate_random_climate():
 	temperature_level	 = rng.randf_range(-1, 1)

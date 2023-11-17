@@ -30,6 +30,8 @@ extends Node3D
 
 @onready var names_file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
 
+var machine_scene = preload("res://scenes/machines/machine.tscn")
+
 var population = {}
 
 var population_rate = {}
@@ -154,3 +156,34 @@ func set_water_to_land_ratio(value):
 
 func _on_machine_take_money_request(machine):
 	emit_signal("machine_take_money_requested", machine)
+
+
+func _on_planet_hud_request_purchase_machines():
+	$MachinePurchaseScreen.update_labels($Machines.get_children())
+	$MachinePurchaseScreen.show()
+
+
+func _on_machine_purchase_screen_request_destroy(machine):
+	$PlanetHUD.remove_machine_slider(machine)
+	machine.queue_free()
+
+
+func _on_machine_purchase_screen_request_purchase(machine):
+	# TAKE yer MONEY!!!
+	emit_signal("machine_take_money_requested", machine, machine.upfront_cost)
+	# MAKE a DAMN MACHINE!!!!!
+	var clone = machine_scene.instantiate()
+	var name_exists = true
+	machine.copy_to(clone)
+	clone.set_planet(self)
+	clone.connect("take_money_request", _on_machine_take_money_request)
+	clone.name = machine.name + " "
+	while name_exists:
+		# check to see if the name exists
+		name_exists = false
+		for m in $Machines.get_children():
+			if m.name == clone.name:
+				name_exists = true
+		if name_exists:
+			clone.name += "I"
+	$Machines.add_child(clone)

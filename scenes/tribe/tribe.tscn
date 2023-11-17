@@ -5,5 +5,4 @@
 [node name="Tribe" type="Node" groups=["tribes"]]
 script = ExtResource("1_3r3yx")
 randomly_generated_climate = true
-randomly_generated_payback = true
-payback = 1
+payback = 2
