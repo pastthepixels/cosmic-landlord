@@ -19,10 +19,13 @@ func _ready():
 	generate_tribes()
 	generate_planets()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	$DemandHUD.update($Player.money, $PayCycle.time_left / $PayCycle.wait_time)
+	# Checks for lose states
+	if $Player.money <= 0:
+		$GameOverScreen.show()
+		get_tree().paused = true
 
 func generate_tribes():
 	for i in tribes:
@@ -86,6 +89,15 @@ func _on_planet_purchase_requested(planet):
 				line.set_color(Color.WHITE)
 	elif !is_touching_purchased(planet):
 		print("Not touching a planet!")
+	# Checks for a win state
+	if $Player.money > 0:
+		var all_planets_purchased = true
+		for p in get_tree().get_nodes_in_group("planets"):
+			if p.purchased == false:
+				all_planets_purchased = false
+		if all_planets_purchased:
+			$GameWinScreen.show()
+			get_tree().paused = true
 
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
