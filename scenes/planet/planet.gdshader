@@ -60,7 +60,7 @@ float fnoise(vec3 p, int octs) {
 		result += multiplier * snoise(p * pow(2., float(i)));
 	}
 	
-	return result;
+	return result + 0.5;
 }
 
 void fragment() {
@@ -70,19 +70,19 @@ void fragment() {
 	float phi = PI * UV.y;
 	vec3 samplePoint = vec3(cos(theta) * sin(phi), sin(theta) * sin(phi), -cos(phi));
 	
-	float groundVal = floor(10. * fnoise(samplePoint, 7) + 0.) * 0.2;
-	float cloudVal = 2. * fnoise(samplePoint + 10. + TIME * 0.05, 4) + 1.;
+	float groundVal = floor(10. * fnoise(samplePoint, 7) + 0.) * 0.1;
+	float cloudVal = fnoise(samplePoint + 10. + TIME * 0.05, 4);
 	
 	vec4 finalColor = vec4(0.);
 	
-	finalColor = texture(gradient, vec2(0.01 + oxygen * 0.98, 0.));
+	finalColor = clamp(groundVal, 0.5, 1.) * texture(gradient, vec2(0.01 + oxygen * 0.98, 0.));
 	
 	if (groundVal < water) {
-		float depth = water - groundVal;
+		float depth = 2. * (water - groundVal);
 		finalColor = clamp(finalColor * (1. - depth) + vec4(0., 0., 0.1, 1.) * depth, 0., 1.);
 	}
 	
-	if (cloudVal > 1.5) {
+	if (cloudVal > 0.7) {
 		finalColor = (vec4(1.) + 3. * finalColor) * 0.25;
 	}
 	
