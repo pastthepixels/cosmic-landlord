@@ -102,7 +102,7 @@ func _on_planet_purchase_requested(planet):
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
 	# Stop moving the spring arm and disable moving it
-	$SpringArm3D.movement_velocity = Vector3()
+	$SpringArm3D.reset_pan()
 	$SpringArm3D.enable_mouse_controls = false
 	# Zoom into the planet
 	var tween = get_tree().create_tween()

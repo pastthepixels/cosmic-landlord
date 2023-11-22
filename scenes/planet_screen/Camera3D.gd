@@ -8,39 +8,35 @@ extends SpringArm3D
 
 @export var enable_mouse_controls : bool = true
 
-var movement_velocity = Vector3()
-
 var _use_mouse_controls = true
+
+var _is_mouse_down = false
+
+var _last_mouse_position
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	movement_velocity = movement_velocity.cubic_interpolate(Vector3(), movement_velocity, Vector3(), 0.2)
-	position += movement_velocity
-	# Mouse panningt
-	var mouse_pos_normalized = Vector2(get_viewport().get_mouse_position()) / Vector2(get_viewport().size)
-	# If mouse_pos_normalised is on one of the edges of the screen
-	if (mouse_pos_normalized.y > (1 - movement_threshold) or \
-		mouse_pos_normalized.y < (movement_threshold) or \
-		mouse_pos_normalized.x > (1 - movement_threshold) or \
-		mouse_pos_normalized.x < (movement_threshold)) and \
-		enable_mouse_controls and _use_mouse_controls:
-		var amount = (mouse_pos_normalized - Vector2(0.5, 0.5)) * speed * delta * (spring_length / max_zoom)
-		movement_velocity.z = amount.y
-		movement_velocity.x = amount.x
-
 func _input(event):
-	# Scrolling
 	if event is InputEventMouseButton and enable_mouse_controls:
+		# Scrolling up
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and spring_length - 1  >= 1:
 			spring_length -= 1
+		# Scrolling down
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and spring_length + 1 <= max_zoom:
 			spring_length += 1
+		# Panning
+		if (not _is_mouse_down) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_is_mouse_down = true
+			_last_mouse_position = project_3d(event.position)
+		else:
+			_is_mouse_down = false
+	if event is InputEventMouseMotion and _is_mouse_down and enable_mouse_controls:
+		var position_3d = project_3d(event.position)
+		position.x += _last_mouse_position.x - position_3d.x
+		position.z += _last_mouse_position.z - position_3d.z
 
 func _notification(notif):
 	match notif:
@@ -48,3 +44,14 @@ func _notification(notif):
 			_use_mouse_controls = false
 		NOTIFICATION_WM_MOUSE_ENTER:
 			_use_mouse_controls = true
+
+# Projects a 2D point to 3D space
+func project_3d(point_2d):
+	return (Plane(Vector3(0, 1, 0), position.y)).intersects_ray(
+		$Camera3D.project_ray_origin(point_2d),
+		$Camera3D.project_ray_normal(point_2d)
+	)
+
+func reset_pan():
+	_is_mouse_down = false
+	_last_mouse_position = Vector3()

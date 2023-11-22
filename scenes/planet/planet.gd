@@ -90,7 +90,7 @@ func get_connecting_planets():
 
 
 func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed == false:
 		emit_signal("clicked", self)
 
 func show_hud():
