@@ -12,6 +12,7 @@ func set_stats(machine):
 	# Cost/wait time
 	$%CostPerRun/Value.text = "$%d" % machine.delta_cost
 	$%CooldownTime/Value.text = str(machine.get_node("Timer").wait_time)
+	$VBoxContainer/Purchase.text = "Purchase ($%d)" % machine.upfront_cost
 	# Changes in things
 	$%delta_temperature_level/Value.text = "%.2f" % (machine.delta_temperature_level * 100) + "%"
 	$%delta_temperature_level.visible = machine.delta_temperature_level != 0

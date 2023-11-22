@@ -130,9 +130,9 @@ data = PackedVector3Array(0, 0.5, 0, 0, 0.5, 0, 0, 0.4977, 0.0475, 0, 0.5, 0, 0.
 [node name="Planet" type="Node3D" groups=["planets"]]
 script = ExtResource("1_2wp60")
 randomly_generated_climate = true
-price = 100000
+price = 500000
 generate_name = true
-population_rate_gradient = 0.1
+population_rate_gradient = 0.2
 
 [node name="PlanetHUD" parent="." instance=ExtResource("2_gnqbb")]
 visible = false

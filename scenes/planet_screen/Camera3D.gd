@@ -31,7 +31,9 @@ func _input(event):
 		if (not _is_mouse_down) and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			_is_mouse_down = true
 			_last_mouse_position = project_3d(event.position)
+			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
 		else:
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 			_is_mouse_down = false
 	if event is InputEventMouseMotion and _is_mouse_down and enable_mouse_controls:
 		var position_3d = project_3d(event.position)
