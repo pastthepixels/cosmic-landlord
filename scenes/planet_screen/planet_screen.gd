@@ -4,6 +4,9 @@ extends Node3D
 
 @export var tribes : int = 5
 
+# see _on_planet_purchase_requested()
+@export_range(0, 1) var price_scaling_amount : float = 0.5
+
 var planet_scene = preload("res://scenes/planet/planet.tscn")
 
 var line_scene = preload("res://scenes/line/line.tscn")
@@ -98,6 +101,11 @@ func _on_planet_purchase_requested(planet):
 		if all_planets_purchased:
 			$GameWinScreen.show()
 			get_tree().paused = true
+	# Increase the price of everything else
+	for other_planet in get_tree().get_nodes_in_group("planets"):
+		# Scales the price of everything so the planet you just purchased * the scale = a percentage by price_scaling_amount
+		if other_planet.purchased == false:
+			other_planet.price_multiplier = price_scaling_amount * (planet.price / float($Player.money))
 
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return

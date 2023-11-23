@@ -23,6 +23,7 @@ sky = SubResource("Sky_gop4l")
 [node name="PlanetScreen" type="Node3D"]
 script = ExtResource("1_2l1pr")
 planets = 30
+price_scaling_amount = 0.8
 
 [node name="DemandHUD" parent="." instance=ExtResource("2_tp2uc")]
 

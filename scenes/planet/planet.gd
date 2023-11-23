@@ -14,8 +14,12 @@ extends Node3D
 @export_range(0, 1) var water_to_land_ratio : float
 
 @export_category("Purchasing")
-@export var price : int
+@export var price : int = 0 :
+	get:
+		return price * price_multiplier
 @export var purchased : bool
+# Affects machines and upfront cost
+@export var price_multiplier : float = 1.0
 
 @export_category("Other")
 @export var planet_name = ""
@@ -154,8 +158,8 @@ func set_carbon_dioxide_level(value):
 func set_water_to_land_ratio(value):
 	water_to_land_ratio = clamp(value, 0, 1)
 
-func _on_machine_take_money_request(machine):
-	emit_signal("machine_take_money_requested", machine)
+func _on_machine_take_money_request(machine, cost):
+	emit_signal("machine_take_money_requested", machine, cost)
 
 
 func _on_planet_hud_request_purchase_machines():

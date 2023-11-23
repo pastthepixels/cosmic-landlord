@@ -18,6 +18,7 @@ func update_purchase_labels():
 		label.set_stats(machine)
 		label.name = machine.name
 		label.set_purchasable()
+		
 		label.connect("request_purchase", _on_label_request_purchase)
 		$%PurchaseLabels.add_child(label)
 
@@ -40,6 +41,11 @@ func update_labels(machines):
 					machine_exists = true
 		if machine_exists == false:
 			label.queue_free()
+	# Updates purchasing labels
+	for label in $%PurchaseLabels.get_children():
+		# TODO: get_parent() is planet but will it always?
+		label.machine._price_multiplier = get_parent().price_multiplier
+		label.set_stats(label.machine)
 
 func _on_label_request_destroy(machine):
 	emit_signal("request_destroy", machine)

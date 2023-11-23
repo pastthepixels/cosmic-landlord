@@ -7,13 +7,20 @@ extends Node
 @export_range(-1, 1) var delta_water_to_land_ratio : float
 
 @export_category("Price")
-@export var delta_cost : int
-@export var upfront_cost : int
-
+@export var delta_cost : int :
+	get:
+		return delta_cost * _price_multiplier
+@export var upfront_cost : int :
+	get:
+		return upfront_cost * _price_multiplier
 @export_category("")
 @export var planet_path : NodePath
 
 var planet
+
+var _price_multiplier = 1 :
+	get:
+		return planet.price_multiplier if planet != null else _price_multiplier
 
 signal take_money_request
 
@@ -40,6 +47,7 @@ func copy_to(machine):
 	machine.delta_oxygen_level = delta_oxygen_level
 	machine.delta_carbon_dioxide_level = delta_carbon_dioxide_level
 	machine.delta_water_to_land_ratio = delta_water_to_land_ratio
-	machine.delta_cost = delta_cost
+	machine.delta_cost = delta_cost / _price_multiplier
+	machine._price_multiplier = _price_multiplier
 	machine.get_node("Timer").wait_time = $Timer.wait_time
 	
