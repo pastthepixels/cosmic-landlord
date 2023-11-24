@@ -36,7 +36,7 @@ visible = false
 z_index = 4096
 
 [node name="PayCycle" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 5.0
 autostart = true
 
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]

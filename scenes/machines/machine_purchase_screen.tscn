@@ -109,65 +109,62 @@ theme_override_constants/separation = 15
 
 [node name="Machines" type="Node" parent="."]
 
-[node name="Planter" parent="Machines" instance=ExtResource("2_47uqd")]
-delta_temperature_level = -0.02
-delta_oxygen_level = 0.02
-delta_carbon_dioxide_level = -0.02
-delta_water_to_land_ratio = -0.01
-delta_cost = 10000
-upfront_cost = 100000
-
-[node name="Timer" parent="Machines/Planter" index="0"]
-wait_time = 6.0
-
 [node name="Factory" parent="Machines" instance=ExtResource("2_47uqd")]
-delta_temperature_level = 0.02
-delta_oxygen_level = -0.01
-delta_carbon_dioxide_level = 0.02
-delta_water_to_land_ratio = -0.01
-delta_cost = 8000
-upfront_cost = 100000
-
-[node name="Timer" parent="Machines/Factory" index="0"]
-wait_time = 7.0
+delta_temperature_level = 0.01
+delta_carbon_dioxide_level = 0.01
+upfront_cost = 10000
 
 [node name="Carbon Capture" parent="Machines" instance=ExtResource("2_47uqd")]
-delta_temperature_level = 0.01
-delta_carbon_dioxide_level = -0.02
-delta_cost = 20000
-upfront_cost = 150000
-
-[node name="Timer" parent="Machines/Carbon Capture" index="0"]
-wait_time = 5.0
+delta_temperature_level = -0.01
+delta_carbon_dioxide_level = -0.01
+upfront_cost = 15000
 
 [node name="Water Synthesizer" parent="Machines" instance=ExtResource("2_47uqd")]
-delta_temperature_level = 0.01
 delta_oxygen_level = -0.01
 delta_carbon_dioxide_level = -0.01
-delta_water_to_land_ratio = 0.02
-delta_cost = 15000
-upfront_cost = 200000
-
-[node name="Timer" parent="Machines/Water Synthesizer" index="0"]
-wait_time = 5.0
+delta_water_to_land_ratio = 0.01
+upfront_cost = 10000
 
 [node name="Water Absorber" parent="Machines" instance=ExtResource("2_47uqd")]
-delta_temperature_level = 0.01
 delta_oxygen_level = 0.01
-delta_carbon_dioxide_level = 0.02
-delta_water_to_land_ratio = -0.02
-delta_cost = 18000
-upfront_cost = 200000
+delta_carbon_dioxide_level = 0.01
+delta_water_to_land_ratio = -0.01
+upfront_cost = 20000
 
-[node name="Timer" parent="Machines/Water Absorber" index="0"]
-wait_time = 7.0
+[node name="Planter" parent="Machines" instance=ExtResource("2_47uqd")]
+delta_oxygen_level = 0.01
+delta_carbon_dioxide_level = -0.01
+delta_water_to_land_ratio = -0.01
+upfront_cost = 10000
+
+[node name="Oxygen Absorber" parent="Machines" instance=ExtResource("2_47uqd")]
+delta_oxygen_level = -0.01
+delta_carbon_dioxide_level = 0.01
+delta_water_to_land_ratio = 0.01
+upfront_cost = 15000
+
+[node name="Giant Fridge" parent="Machines" instance=ExtResource("2_47uqd")]
+delta_temperature_level = -0.01
+upfront_cost = 30000
+
+[node name="Space Straw" parent="Machines" instance=ExtResource("2_47uqd")]
+delta_water_to_land_ratio = -0.01
+upfront_cost = 30000
+
+[node name="Oxygen Synthesis Machine" parent="Machines" instance=ExtResource("2_47uqd")]
+delta_oxygen_level = 0.01
+upfront_cost = 30000
 
 [connection signal="pressed" from="CurrentMachines/PanelContainer/VBoxContainer/HBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="CurrentMachines/PanelContainer/VBoxContainer/HBoxContainer/Purchase" to="." method="_on_purchase_pressed"]
 [connection signal="pressed" from="PurchaseMachines/PanelContainer/VBoxContainer/Back" to="." method="_on_purchase_back_pressed"]
 
-[editable path="Machines/Planter"]
 [editable path="Machines/Factory"]
 [editable path="Machines/Carbon Capture"]
 [editable path="Machines/Water Synthesizer"]
 [editable path="Machines/Water Absorber"]
+[editable path="Machines/Planter"]
+[editable path="Machines/Oxygen Absorber"]
+[editable path="Machines/Giant Fridge"]
+[editable path="Machines/Space Straw"]
+[editable path="Machines/Oxygen Synthesis Machine"]

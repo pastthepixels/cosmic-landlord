@@ -84,6 +84,9 @@ func is_touching_purchased(planet):
 
 # Purchasing planets!
 func _on_planet_purchase_requested(planet):
+	# Get price multiplier
+	var price_multiplier = price_scaling_amount * ($Player.money / float(planet.price))
+	# Purchase the planet...
 	if is_touching_purchased(planet):
 		$Player.money -= planet.price
 		planet.unlock()
@@ -105,7 +108,7 @@ func _on_planet_purchase_requested(planet):
 	for other_planet in get_tree().get_nodes_in_group("planets"):
 		# Scales the price of everything so the planet you just purchased * the scale = a percentage by price_scaling_amount
 		if other_planet.purchased == false:
-			other_planet.price_multiplier = price_scaling_amount * (planet.price / float($Player.money))
+			other_planet.price_multiplier = price_multiplier
 
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
