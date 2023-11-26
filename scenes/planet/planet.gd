@@ -94,6 +94,7 @@ func get_connecting_planets():
 
 
 func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
+	print(event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT)
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed == false:
 		emit_signal("clicked", self)
 
@@ -191,3 +192,11 @@ func _on_machine_purchase_screen_request_purchase(machine):
 		if name_exists:
 			clone.name += "I"
 	$Machines.add_child(clone)
+
+
+func _on_static_body_3d_mouse_entered():
+	$MeshInstance3D.material_overlay.albedo_color.a += 0.2
+
+
+func _on_static_body_3d_mouse_exited():
+	$MeshInstance3D.material_overlay.albedo_color.a -= 0.2

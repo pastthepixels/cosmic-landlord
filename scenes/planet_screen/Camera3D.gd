@@ -17,9 +17,10 @@ var _last_mouse_position
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Camera3D/PanArea.position = Vector3()
+	$Camera3D/PanArea.rotation = Vector3()
 
-func _input(event):
+func _mouse_input(event):
 	if event is InputEventMouseButton and enable_mouse_controls:
 		# Scrolling up
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and spring_length - 1  >= 1:
@@ -57,3 +58,7 @@ func project_3d(point_2d):
 func reset_pan():
 	_is_mouse_down = false
 	_last_mouse_position = Vector3()
+
+
+func _on_area_3d_input_event(camera, event, position, normal, shape_idx):
+	_mouse_input(event)

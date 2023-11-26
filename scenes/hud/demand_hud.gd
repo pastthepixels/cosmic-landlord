@@ -14,6 +14,6 @@ func initialise():
 		)
 		$VBoxContainer.add_child(stats)
 
-func update(money, payday_cooldown_value):
-	$%Money/Label.text = "$%d" % money
-	$"%PaydayCooldown/PlanetHUD Label/ProgressBar".value = payday_cooldown_value
+
+func _on_hide_button_pressed():
+	hide()

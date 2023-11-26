@@ -164,3 +164,5 @@ shape = SubResource("ConcavePolygonShape3D_c6o1j")
 [connection signal="request_destroy" from="MachinePurchaseScreen" to="." method="_on_machine_purchase_screen_request_destroy"]
 [connection signal="request_purchase" from="MachinePurchaseScreen" to="." method="_on_machine_purchase_screen_request_purchase"]
 [connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="mouse_entered" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_mouse_entered"]
+[connection signal="mouse_exited" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_mouse_exited"]

@@ -17,6 +17,8 @@ var tribe_scene = preload("res://scenes/tribe/tribe.tscn")
 
 var rng = RandomNumberGenerator.new()
 
+# Game information
+var year : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,7 +28,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$DemandHUD.update($Player.money, $PayCycle.time_left / $PayCycle.wait_time)
+	$%HUD.update($Player.money, $PayCycle.time_left / $PayCycle.wait_time, year)
 	# Checks for lose states
 	if $Player.money <= 0:
 		$GameOverScreen.show()
@@ -36,7 +38,7 @@ func generate_tribes():
 	for i in tribes:
 		var tribe = tribe_scene.instantiate()
 		$Tribes.add_child(tribe)
-	$DemandHUD.initialise()
+	$%DemandHUD.initialise()
 
 # TODO: in the future, voronoi noise
 func generate_planets():
@@ -136,6 +138,7 @@ func _on_planet_machine_take_money_requested(machine, cost):
 	$Player.money -= cost
 
 func _on_pay_cycle_timeout():
+	self.year += 1
 	for planet in get_tree().get_nodes_in_group("planets"):
 		if planet.purchased:
 			for tribe in get_tree().get_nodes_in_group("tribes"):
@@ -143,3 +146,11 @@ func _on_pay_cycle_timeout():
 			# also update people
 			planet.update_population()
 	#print($Player.money)
+
+
+func _on_hud_view_tenants():
+	$%DemandHUD.visible = not $%DemandHUD.visible
+
+
+func _on_area_3d_input_event(camera, event, position, normal, shape_idx):
+	print(position)
