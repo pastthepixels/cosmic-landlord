@@ -36,7 +36,6 @@ text = "Temp"
 
 [node name="ProgressBar" parent="VBoxContainer/Temp" index="1"]
 min_value = -1.0
-show_percentage = false
 
 [node name="Oxygen" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
 unique_name_in_owner = true
