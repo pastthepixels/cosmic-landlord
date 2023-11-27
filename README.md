@@ -4,5 +4,5 @@ A game by @pastthepixels and @Zirconova for the [Propel 2023 game jam](https://i
 
 
 ## To Do:
-- [ ] Replace planet generation delaunay triangulation
+- [ ] Replace planet generation with delaunay triangulation
 - [ ] BALANCING
