@@ -1,19 +1,8 @@
-To Do:
-======
-## Nice to have
-- [ ] Replace planet generation with voronoi noise
-## What we have to do
-- [x] Add shaders for planets
-- [x] Main menu screen
-- [x] Buying planets
-- [x] Climates
-- [x] What happens when you click on a planet (showing climates/climate modifiers)
-- [ ] Climate modifiers:
-	- [ ] Plants
-	- [ ] Water syntheziers
-	- [ ] Water absorbers
-	- [ ] Carbon capture devices
-	- [ ] Housing
-	- [ ] Farms
-- [ ] Purchasing climate modifiers
-- [ ] People
+Cosmic Landlord
+===============
+A game by @pastthepixels and @Zirconova for the (Propel 2023 game jam)[https://itch.io/jam/propel-game-jam]
+
+
+## To Do:
+- [ ] Replace planet generation delaunay triangulation
+- [ ] BALANCING
