@@ -47,6 +47,8 @@ var population_rate = {}
 
 var rng = RandomNumberGenerator.new()
 
+var hud # PlanetHUD passed from hud.tscn
+
 signal clicked
 
 signal exited_view
@@ -62,14 +64,12 @@ func _ready():
 		generate_random_climate()
 	if generate_name:
 		planet_name = gen_name()
-	$PlanetHUD.set_up(self)
 	fill_population()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	$MeshInstance3D.material_override.set_shader_parameter("oxygen", oxygen_level)
 	$MeshInstance3D.material_override.set_shader_parameter("water", water_to_land_ratio)
-	$PlanetHUD.update(self)
 
 func generate_random_climate():
 	temperature_level	 = rng.randf_range(-0.5, 0.5)
@@ -99,27 +99,19 @@ func get_connecting_planets():
 
 
 func _on_static_body_3d_input_event(camera, event, position, normal, shape_idx):
-	print(event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT)
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed == false:
 		emit_signal("clicked", self)
-
-func show_hud():
-	$PlanetHUD.show()
-
-func hide_hud():
-	$PlanetHUD.hide()
 
 func unlock():
 	self.purchased = true
 	$MeshInstance3D.material_overlay.albedo_color.a = 1
-	$PlanetHUD.unlock()
+	hud.unlock()
 
 # Fills up the "population" array
 func fill_population():
 	for tribe in get_tree().get_nodes_in_group("tribes"):
 		population[tribe.name] = 0
 		population_rate[tribe.name] = 0
-	$PlanetHUD.add_population_sliders(self)
 
 func get_population_rate(tribe):
 	var x = (tribe.get_climate_similarity(self) - climate_similarity_threshold) * (1 - climate_similarity_threshold)
@@ -156,7 +148,6 @@ func _on_planet_hud_exited():
 func _on_planet_hud_purchase_pressed():
 	emit_signal("purchase_requested", self)
 
-
 func set_temperature_level(value):
 	temperature_level = clamp(value, -0.5, 0.5)
 
@@ -179,7 +170,7 @@ func _on_planet_hud_request_purchase_machines():
 
 
 func _on_machine_purchase_screen_request_destroy(machine):
-	$PlanetHUD.remove_machine_slider(machine)
+	hud.remove_machine_slider(machine)
 	machine.queue_free()
 
 

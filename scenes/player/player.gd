@@ -1,3 +1,3 @@
 extends Node
 
-@export_range(0, 1000000) var money : int = 200000
+@export_range(0, 1000000) var money : int = 800000

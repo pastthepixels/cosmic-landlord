@@ -8,6 +8,12 @@ signal request_purchase_machines
 
 var label_scene = preload("res://scenes/planet/planet_hud_label.tscn")
 
+var _planet
+
+func _process(delta):
+	if _planet != null and visible:
+		update(_planet)
+
 func _on_back_button_pressed():
 	emit_signal("exited")
 
@@ -15,30 +21,42 @@ func _on_purchase_button_pressed():
 	emit_signal("purchase_pressed")
 
 func set_up(planet):
+	reset()
+	_planet = planet
 	if planet.purchased:
 		unlock()
+	add_population_sliders(planet)
+
+func reset():
+	lock()
+	for child in $%PopulationContainer.get_children():
+		child.name = ""
+		child.queue_free()
+	for child in $%MachinesContainer.get_children():
+		child.name = ""
+		child.queue_free()
 
 func add_population_sliders(planet):
 	for tribe in planet.population:
 		var label = label_scene.instantiate()
 		label.name = tribe
 		label.get_node("ProgressBar").hide()
-		$%Population/VBoxContainer.add_child(label)
+		$%PopulationContainer.add_child(label)
 
 func update_machine_sliders(planet):
 	for machine in planet.get_node("Machines").get_children():
-		if has_node("%" + ("Machines/VBoxContainer/%s" % machine.name)):
-			get_node("%" + ("Machines/VBoxContainer/%s/ProgressBar" % machine.name)).value = machine.get_time_left()
+		if has_node("%" + ("MachinesContainer/%s" % machine.name)):
+			get_node("%" + ("MachinesContainer/%s/ProgressBar" % machine.name)).value = machine.get_time_left()
 		else:
 			var label = label_scene.instantiate()
 			label.name = machine.name
 			label.get_node("Label").text = machine.name
 			label.get_node("ProgressBar").value = machine.get_time_left()
-			$%Machines/VBoxContainer.add_child(label)
+			$%MachinesContainer.add_child(label)
 
 func remove_machine_slider(machine):
-	if has_node("%" + ("Machines/VBoxContainer/%s" % machine.name)):
-		get_node("%" + ("Machines/VBoxContainer/%s" % machine.name)).queue_free()
+	if has_node("%" + ("MachinesContainer/%s" % machine.name)):
+		get_node("%" + ("MachinesContainer/%s" % machine.name)).queue_free()
 
 func update(planet):
 	# Planet stats
@@ -51,10 +69,10 @@ func update(planet):
 	)
 	# Tribes
 	for tribe in planet.population:
-		if has_node("%" + ("Population/VBoxContainer/%s" % tribe)):
+		if has_node("%" + ("PopulationContainer/%s" % tribe)):
 			var growth_symbol = ("↑" if planet.population_rate[tribe] > 0 else "↓") if planet.population_rate[tribe] != 0 else "-"
-			get_node("%" + ("Population/VBoxContainer/%s" % tribe)).visible = planet.population[tribe] > 0
-			get_node("%" + ("Population/VBoxContainer/%s/Label" % tribe)).text = growth_symbol + " " + (tribe + ": %d") % planet.population[tribe]
+			get_node("%" + ("PopulationContainer/%s" % tribe)).visible = planet.population[tribe] > 0
+			get_node("%" + ("PopulationContainer/%s/Label" % tribe)).text = growth_symbol + " " + (tribe + ": %d") % planet.population[tribe]
 	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
 	# Purchasing
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
@@ -65,6 +83,11 @@ func unlock():
 	$%PurchaseButton.disabled = true
 	$%Machines.show()
 	$%Population.show()
+
+func lock():
+	$%PurchaseButton.disabled = false
+	$%Machines.hide()
+	$%Population.hide()
 
 
 func _on_purchase_machine_pressed():

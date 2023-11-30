@@ -38,7 +38,7 @@ func generate_tribes():
 	for i in tribes:
 		var tribe = tribe_scene.instantiate()
 		$Tribes.add_child(tribe)
-	$%DemandHUD.initialise()
+	$HUD.initialise_demand_hud()
 
 # TODO: in the future, voronoi noise
 func generate_planets():
@@ -112,7 +112,7 @@ func _on_planet_purchase_requested(planet):
 	for other_planet in get_tree().get_nodes_in_group("planets"):
 		# Scales the price of everything so the planet you just purchased * the scale = a percentage by price_scaling_amount
 		if other_planet.purchased == false:
-			other_planet.price_multiplier = max(price_multiplier, other_planet.price_multiplier + max_delta_price_modifier)
+			pass#other_planet.price_multiplier = max(price_multiplier, other_planet.price_multiplier + max_delta_price_modifier)
 
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
@@ -124,12 +124,13 @@ func _on_planet_clicked(planet):
 	tween.tween_property($SpringArm3D, "position", planet.position, 0.25).set_trans(Tween.TRANS_SINE)
 	tween.tween_property($SpringArm3D, "spring_length", 1, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Show controls for the planet
-	planet.show_hud()
+	#planet.show_hud()
+	$HUD.show_planet_hud(planet)
 
 func _on_planet_exited_view(planet):
 	# Re-enable mouse controls/hide planet HUD
 	$SpringArm3D.enable_mouse_controls = true
-	planet.hide_hud()
+	$HUD.hide_planet_hud()
 	# Move out camera
 	var tween = get_tree().create_tween()
 	tween.tween_property($SpringArm3D, "spring_length", 10, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -146,11 +147,6 @@ func _on_pay_cycle_timeout():
 			# also update people
 			planet.update_population()
 	#print($Player.money)
-
-
-func _on_hud_view_tenants():
-	$%DemandHUD.visible = not $%DemandHUD.visible
-
 
 func _on_area_3d_input_event(camera, event, position, normal, shape_idx):
 	print(position)

@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://4b1t3dsdew0q"]
+[gd_scene load_steps=6 format=3 uid="uid://4b1t3dsdew0q"]
 
 [ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_oxoey"]
+[ext_resource type="PackedScene" uid="uid://d0mekwjcuvsvg" path="res://scenes/hud/demand_hud.tscn" id="2_3we5b"]
+[ext_resource type="PackedScene" uid="uid://d3plcup55shl3" path="res://scenes/planet/planet_hud.tscn" id="2_4i1kd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0j6el"]
 content_margin_left = 15.0
@@ -12,17 +14,40 @@ bg_color = Color(0.113725, 0.113725, 0.113725, 0.635294)
 [sub_resource type="LabelSettings" id="LabelSettings_qyrun"]
 font_size = 23
 
-[node name="HUD" type="Node"]
-script = ExtResource("1_oxoey")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_preset = 12
-anchor_top = 1.0
+[node name="HUD" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -72.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_oxoey")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="PlanetHUD" parent="Control" instance=ExtResource("2_4i1kd")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(343, 0)
+layout_mode = 1
+offset_right = 38.0
+offset_bottom = 0.0
+
+[node name="DemandHUD" parent="Control" instance=ExtResource("2_3we5b")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+anchors_preset = 0
+offset_left = -343.0
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_0j6el")
 
@@ -76,4 +101,7 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "Tribes"
 
+[connection signal="exited" from="Control/PlanetHUD" to="." method="_on_planet_hud_exited"]
+[connection signal="purchase_pressed" from="Control/PlanetHUD" to="." method="_on_planet_hud_purchase_pressed"]
+[connection signal="request_purchase_machines" from="Control/PlanetHUD" to="." method="_on_planet_hud_request_purchase_machines"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/ViewTenants" to="." method="_on_view_tenants_pressed"]

@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dbk22ou8eywq8"]
+[gd_scene load_steps=10 format=3 uid="uid://dbk22ou8eywq8"]
 
 [ext_resource type="Script" path="res://scenes/planet/planet.gd" id="1_2wp60"]
 [ext_resource type="PackedScene" uid="uid://birv6x0nxbgsj" path="res://scenes/machines/machine_purchase_screen.tscn" id="2_5pc5a"]
-[ext_resource type="PackedScene" uid="uid://d3plcup55shl3" path="res://scenes/planet/planet_hud.tscn" id="2_gnqbb"]
 [ext_resource type="Shader" path="res://scenes/planet/planet.gdshader" id="4_x5qwa"]
 
 [sub_resource type="Gradient" id="Gradient_nb7rk"]
@@ -43,9 +42,6 @@ price = 500000
 generate_name = true
 max_population_rate = 5000
 
-[node name="PlanetHUD" parent="." instance=ExtResource("2_gnqbb")]
-visible = false
-
 [node name="MachinePurchaseScreen" parent="." instance=ExtResource("2_5pc5a")]
 visible = false
 z_index = 999
@@ -67,9 +63,6 @@ shape = SubResource("ConcavePolygonShape3D_c6o1j")
 
 [node name="Machines" type="Node" parent="."]
 
-[connection signal="exited" from="PlanetHUD" to="." method="_on_planet_hud_exited"]
-[connection signal="purchase_pressed" from="PlanetHUD" to="." method="_on_planet_hud_purchase_pressed"]
-[connection signal="request_purchase_machines" from="PlanetHUD" to="." method="_on_planet_hud_request_purchase_machines"]
 [connection signal="request_destroy" from="MachinePurchaseScreen" to="." method="_on_machine_purchase_screen_request_destroy"]
 [connection signal="request_purchase" from="MachinePurchaseScreen" to="." method="_on_machine_purchase_screen_request_purchase"]
 [connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]

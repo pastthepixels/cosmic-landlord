@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://bnicc4xxbi8uk"]
+[gd_scene load_steps=13 format=3 uid="uid://bnicc4xxbi8uk"]
 
 [ext_resource type="Script" path="res://scenes/planet_screen/planet_screen.gd" id="1_2l1pr"]
 [ext_resource type="Script" path="res://scenes/planet_screen/Camera3D.gd" id="1_du1fq"]
 [ext_resource type="Shader" path="res://scenes/planet_screen/sky.gdshader" id="2_r7y0b"]
-[ext_resource type="PackedScene" uid="uid://d0mekwjcuvsvg" path="res://scenes/hud/demand_hud.tscn" id="2_tp2uc"]
 [ext_resource type="PackedScene" uid="uid://bugrt3bo0ibvi" path="res://scenes/player/player.tscn" id="2_tpxrh"]
 [ext_resource type="PackedScene" uid="uid://bl8csdkwymeym" path="res://scenes/game_end_screens/game_win_screen.tscn" id="3_7xahq"]
 [ext_resource type="PackedScene" uid="uid://4b1t3dsdew0q" path="res://scenes/hud/hud.tscn" id="3_o023b"]
@@ -28,23 +27,12 @@ script = ExtResource("1_2l1pr")
 planets = 30
 price_scaling_amount = 0.9
 
-[node name="HUD" parent="." instance=ExtResource("3_o023b")]
-unique_name_in_owner = true
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sx0eq")
 
-[node name="DemandHUD" parent="." instance=ExtResource("2_tp2uc")]
-unique_name_in_owner = true
-visible = false
-offset_left = -343.0
-mouse_filter = 0
-mouse_force_pass_scroll_events = false
-
-[node name="GameWinScreen" parent="." instance=ExtResource("3_7xahq")]
-visible = false
-z_index = 4096
-
-[node name="GameOverScreen" parent="." instance=ExtResource("4_5bttk")]
-visible = false
-z_index = 4096
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ba4da")
+autoplay = true
 
 [node name="PayCycle" type="Timer" parent="."]
 wait_time = 5.0
@@ -52,8 +40,7 @@ autostart = true
 
 [node name="Player" parent="." instance=ExtResource("2_tpxrh")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_sx0eq")
+[node name="Tribes" type="Node" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -77,12 +64,16 @@ shape = SubResource("WorldBoundaryShape3D_6oxic")
 [node name="Planets" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0334654, 0, 0)
 
-[node name="Tribes" type="Node" parent="."]
+[node name="GameOverScreen" parent="." instance=ExtResource("4_5bttk")]
+visible = false
+z_index = 4096
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_ba4da")
-autoplay = true
+[node name="GameWinScreen" parent="." instance=ExtResource("3_7xahq")]
+visible = false
+z_index = 4096
 
-[connection signal="view_tenants" from="HUD" to="." method="_on_hud_view_tenants"]
+[node name="HUD" parent="." instance=ExtResource("3_o023b")]
+unique_name_in_owner = true
+
 [connection signal="timeout" from="PayCycle" to="." method="_on_pay_cycle_timeout"]
 [connection signal="input_event" from="SpringArm3D/Camera3D/PanArea" to="SpringArm3D" method="_on_area_3d_input_event"]
