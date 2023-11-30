@@ -1,7 +1,10 @@
 shader_type spatial;
+render_mode world_vertex_coords;
 
 uniform float water: hint_range(0.,1.);
 uniform float oxygen: hint_range(0.,1.);
+uniform float co2: hint_range(0., 1.);
+uniform float temperature: hint_range(0., 1.);
 uniform sampler2D gradient: hint_default_black;
 
 // discontinuous pseudorandom uniformly distributed in [-0.5, +0.5]^3
@@ -65,6 +68,7 @@ float fnoise(vec3 p, int octs) {
 
 void fragment() {
 	float rotSpeed = 0.05;
+	
 	// Convert uv to cartesian coords
 	float theta = 2. * PI * (UV.x + TIME * rotSpeed);
 	float phi = PI * UV.y;
@@ -85,6 +89,10 @@ void fragment() {
 	if (cloudVal > 0.7) {
 		finalColor = (vec4(1.) + 3. * finalColor) * 0.25;
 	}
+	
+	float atmos = clamp(dot(NORMAL, -VIEW) + 1., 0., 1.);
+	
+	finalColor = finalColor + 0.2 * vec4(atmos, atmos * 2., atmos * 4., 0.);
 	
 	ALBEDO = finalColor.rgb;
 }
