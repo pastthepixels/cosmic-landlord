@@ -5,7 +5,7 @@ var rng = RandomNumberGenerator.new()
 # Look at planet/planet.gd
 @export_category("Climate")
 @export var randomly_generated_climate : bool = false
-@export_range(-1, 1) var temperature_level : float
+@export_range(-0.5, 0.5) var temperature_level : float
 @export_range(0, 1) var oxygen_level : float
 @export_range(0, 1) var carbon_dioxide_level : float
 @export_range(0, 1) var water_to_land_ratio : float
@@ -28,7 +28,7 @@ func _ready():
 		payback = rng.randf_range(1, 2)
 
 func generate_random_climate():
-	temperature_level	 = rng.randf_range(-1, 1)
+	temperature_level	 = rng.randf_range(-0.5, 0.5)
 	oxygen_level		 = rng.randf_range(0, 1)
 	carbon_dioxide_level = rng.randf_range(0, 1)
 	water_to_land_ratio	 = rng.randf_range(0, 1)

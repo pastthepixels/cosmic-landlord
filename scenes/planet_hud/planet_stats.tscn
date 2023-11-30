@@ -35,7 +35,8 @@ layout_mode = 2
 text = "Temp"
 
 [node name="ProgressBar" parent="VBoxContainer/Temp" index="1"]
-min_value = -1.0
+min_value = -0.5
+max_value = 0.5
 
 [node name="Oxygen" parent="VBoxContainer" instance=ExtResource("1_btm2l")]
 unique_name_in_owner = true

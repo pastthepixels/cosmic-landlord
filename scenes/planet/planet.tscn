@@ -132,7 +132,7 @@ script = ExtResource("1_2wp60")
 randomly_generated_climate = true
 price = 500000
 generate_name = true
-population_rate_gradient = 0.2
+max_population_rate = 5000
 
 [node name="PlanetHUD" parent="." instance=ExtResource("2_gnqbb")]
 visible = false

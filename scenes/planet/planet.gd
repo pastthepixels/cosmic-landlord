@@ -3,7 +3,7 @@ extends Node3D
 @export_category("Climate")
 @export var randomly_generated_climate : bool = false
 # Averge surface temperature, simplified to be a range in -1 to 1 (however 0 == 0 degrees C)
-@export_range(-1, 1) var temperature_level : float
+@export_range(-0.5, 0.5) var temperature_level : float
 # Oxygen level: percentage
 @export_range(0, 1) var oxygen_level : float
 # Carbon dioxide level: percentage
@@ -29,7 +29,12 @@ extends Node3D
 @export var max_population : int = 1000000
 @export var max_population_rate : int = 1000
 # Adjusts just how much a close climate affects a population rate
-@export_range(0, 1) var population_rate_gradient : float = 1
+# note X is actually (x - 0.5) * 0.5 to get negative values if the similarity is < 0.5
+# https://www.desmos.com/calculator/yqbyzdcqx7
+@export var population_rate_gradient : float = 1
+# I don't know what this does exactly (other than changes that 0.5 above)
+# please comment this better if you can actually explain it
+@export var climate_similarity_threshold : float = 0.6
 
 
 @onready var names_file = FileAccess.open("res://res/planet_names.txt", FileAccess.READ)
@@ -67,7 +72,7 @@ func _process(_delta):
 	$PlanetHUD.update(self)
 
 func generate_random_climate():
-	temperature_level	 = rng.randf_range(-1, 1)
+	temperature_level	 = rng.randf_range(-0.5, 0.5)
 	oxygen_level		 = rng.randf_range(0, 1)
 	carbon_dioxide_level = rng.randf_range(0, 1)
 	water_to_land_ratio	 = rng.randf_range(0, 1)
@@ -116,9 +121,14 @@ func fill_population():
 		population_rate[tribe.name] = 0
 	$PlanetHUD.add_population_sliders(self)
 
+func get_population_rate(tribe):
+	var x = (tribe.get_climate_similarity(self) - climate_similarity_threshold) * (1 - climate_similarity_threshold)
+	var rate = (pow(x, population_rate_gradient) if x > 0 else -pow(-x, population_rate_gradient))
+	return rate if rate > 0.05 else 0
+
 func update_population():
 	for tribe in get_tree().get_nodes_in_group("tribes"):
-		population_rate[tribe.name] = int(pow(tribe.get_climate_similarity(self) - 0.5, population_rate_gradient) * max_population_rate)
+		population_rate[tribe.name] = int(get_population_rate(tribe) * max_population_rate)
 		if population[tribe.name] + population_rate[tribe.name] >= 0 \
 			and (get_population_count() + population_rate[tribe.name]) <= max_population:
 			population[tribe.name] += population_rate[tribe.name]
@@ -148,7 +158,7 @@ func _on_planet_hud_purchase_pressed():
 
 
 func set_temperature_level(value):
-	temperature_level = clamp(value, -1, 1)
+	temperature_level = clamp(value, -0.5, 0.5)
 
 func set_oxygen_level(value):
 	oxygen_level = clamp(value, 0, 1)

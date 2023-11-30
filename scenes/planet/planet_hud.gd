@@ -53,8 +53,6 @@ func update(planet):
 	for tribe in planet.population:
 		if has_node("%" + ("Population/VBoxContainer/%s" % tribe)):
 			var growth_symbol = ("↑" if planet.population_rate[tribe] > 0 else "↓") if planet.population_rate[tribe] != 0 else "-"
-			if abs(planet.population_rate[tribe] * planet.population_rate_gradient) > 0.5:
-				growth_symbol += growth_symbol # Two arrows to indicate rapid change
 			get_node("%" + ("Population/VBoxContainer/%s" % tribe)).visible = planet.population[tribe] > 0
 			get_node("%" + ("Population/VBoxContainer/%s/Label" % tribe)).text = growth_symbol + " " + (tribe + ": %d") % planet.population[tribe]
 	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
