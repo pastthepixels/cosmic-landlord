@@ -97,6 +97,11 @@ func _on_planet_purchase_requested(planet):
 		for line in get_tree().get_nodes_in_group("lines"):
 			if line.to_object == planet.get_path() or line.from_object == planet.get_path():
 				line.set_color(Color.WHITE)
+		# Increase the price of everything else
+		for other_planet in get_tree().get_nodes_in_group("planets"):
+			# Scales the price of everything so the planet you just purchased * the scale = a percentage by price_scaling_amount
+			if other_planet.purchased == false:
+				other_planet.price_multiplier = max(price_multiplier, other_planet.price_multiplier + max_delta_price_modifier)
 	elif !is_touching_purchased(planet):
 		print("Not touching a planet!")
 	# Checks for a win state
@@ -108,12 +113,7 @@ func _on_planet_purchase_requested(planet):
 		if all_planets_purchased:
 			$GameWinScreen.show()
 			get_tree().paused = true
-	# Increase the price of everything else
-	for other_planet in get_tree().get_nodes_in_group("planets"):
-		# Scales the price of everything so the planet you just purchased * the scale = a percentage by price_scaling_amount
-		if other_planet.purchased == false:
-			pass#other_planet.price_multiplier = max(price_multiplier, other_planet.price_multiplier + max_delta_price_modifier)
-
+	
 func _on_planet_clicked(planet):
 	if $SpringArm3D.enable_mouse_controls == false: return
 	# Stop moving the spring arm and disable moving it
