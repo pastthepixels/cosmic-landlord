@@ -25,23 +25,29 @@ func set_up(planet):
 	_planet = planet
 	if planet.purchased:
 		unlock()
-	add_population_sliders(planet)
 
 func reset():
 	lock()
 	for child in $%PopulationContainer.get_children():
-		child.name = ""
-		child.queue_free()
+		child.hide()
 	for child in $%MachinesContainer.get_children():
 		child.name = ""
 		child.queue_free()
 
-func add_population_sliders(planet):
+func update_population_sliders(planet):
 	for tribe in planet.population:
-		var label = label_scene.instantiate()
+		var label = get_node("%" + ("PopulationContainer/%s" % tribe)) if has_node("%" + ("PopulationContainer/%s" % tribe)) else label_scene.instantiate()
+		if not has_node("%" + ("PopulationContainer/%s" % tribe)):
+			$%PopulationContainer.add_child(label)
+		# Update existing labels
+		var growth_symbol = ("↑" if planet.population_rate[tribe] > 0 else "↓") if planet.population_rate[tribe] != 0 else "-"
 		label.name = tribe
 		label.get_node("ProgressBar").hide()
-		$%PopulationContainer.add_child(label)
+		label.visible = planet.population[tribe] > 0
+		label.get_node("Label").text = growth_symbol + " " + (tribe + ": %d") % planet.population[tribe]
+
+	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
+
 
 func update_machine_sliders(planet):
 	for machine in planet.get_node("Machines").get_children():
@@ -68,12 +74,7 @@ func update(planet):
 		"Planet " + planet.planet_name
 	)
 	# Tribes
-	for tribe in planet.population:
-		if has_node("%" + ("PopulationContainer/%s" % tribe)):
-			var growth_symbol = ("↑" if planet.population_rate[tribe] > 0 else "↓") if planet.population_rate[tribe] != 0 else "-"
-			get_node("%" + ("PopulationContainer/%s" % tribe)).visible = planet.population[tribe] > 0
-			get_node("%" + ("PopulationContainer/%s/Label" % tribe)).text = growth_symbol + " " + (tribe + ": %d") % planet.population[tribe]
-	$%PopTotal/ProgressBar.value = planet.get_population_count() / float(planet.max_population)
+	update_population_sliders(planet)
 	# Purchasing
 	$%PurchaseButton.text = "Purchase ($%d)" % planet.price
 	# Machine!!
